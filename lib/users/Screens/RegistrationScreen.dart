@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guard/user/Farms/EmployerForm.dart';
-import 'package:guard/user/Farms/GaurdForm.dart';
+import 'package:guard/users/Farms/JobForm.dart';
+import 'package:guard/users/Farms/GaurdForm.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -92,7 +92,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EmployerForm()),
+                      MaterialPageRoute(builder: (context) => JobForm()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

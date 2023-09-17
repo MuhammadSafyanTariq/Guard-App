@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guard/user/Resource/Auth_Methods.dart';
-import 'package:guard/user/Screens/MainPage.dart';
-import 'package:guard/user/utils/utils.dart';
+import 'package:guard/users/Resource/Auth_Methods.dart';
+import 'package:guard/users/Screens/MainPage.dart';
+import 'package:guard/users/utils/utils.dart';
 
 import 'RegistrationScreen.dart'; // Replace with your actual import path
 

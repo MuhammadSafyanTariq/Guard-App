@@ -5,11 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/admin/Farms/EmployerForm.dart';
-import 'package:guard/user/Provider/user_provider.dart';
-import 'package:guard/user/Screens/LoginScreen.dart';
-import 'package:guard/user/Screens/MainPage.dart';
-import 'package:guard/user/utils/utils.dart';
+import 'package:guard/users/Farms/JobForm.dart';
+import 'package:guard/users/Provider/user_provider.dart';
+import 'package:guard/users/Screens/LoginScreen.dart';
+import 'package:guard/users/Screens/MainPage.dart';
+import 'package:guard/users/utils/utils.dart';
 
 import 'package:provider/provider.dart';
 
@@ -44,7 +44,7 @@ void main() async {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   // _auth.signOut();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
   getData() async {
     try {
       var userSnap = await FirebaseFirestore.instance
-          .collection('employer')
+          .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
 
@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
         userData = userSnap.data() as Map<String, dynamic>;
         setState(() {});
         type = userData['type'];
+        print(type);
       } else {
         print('Document does not exist');
       }
@@ -84,9 +85,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print('build..............${userData['type']}');
-    print('type---------------------->$type');
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -118,17 +116,7 @@ class _MyAppState extends State<MyApp> {
                   // ),
                   splashTransition: SplashTransition.slideTransition,
                   backgroundColor: Colors.black,
-                  nextScreen: type == 'employer'
-                      ? Center(
-                          child: Container(
-                            child: Text('I am an Employer'),
-                          ),
-                        )
-                      : Center(
-                          child: Container(
-                            child: Text('I am a Guard'),
-                          ),
-                        ),
+                  nextScreen: JobForm(),
                 );
               } else if (snapshot.hasError) {
                 return const Center(

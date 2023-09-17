@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guard/user/Screens/AdDetailsPage.dart';
+import 'package:guard/users/Screens/AdDetailsPage.dart';
 
 class Ads extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guard/user/Resource/Auth_Methods.dart';
-import 'package:guard/user/Screens/MainPage.dart';
-import 'package:guard/user/utils/utils.dart';
+import 'package:guard/users/Resource/Auth_Methods.dart';
+import 'package:guard/users/Screens/MainPage.dart';
+import 'package:guard/users/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class GuardForm extends StatefulWidget {
@@ -181,15 +181,7 @@ class _GuardFormState extends State<GuardForm> {
                   setState(() {
                     _currentStep++;
                   });
-                } else {
-                  SignUpUser();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MainPage()), // Replace with the actual route
-                  );
-                }
+                } else {}
               },
               onStepCancel: () {
                 if (_currentStep > 0) {
@@ -212,6 +204,17 @@ class _GuardFormState extends State<GuardForm> {
                 ),
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  SignUpUser();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MainPage()), // Replace with the actual route
+                  );
+                },
+                child: Text('Register'))
           ],
         ),
       ),

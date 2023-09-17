@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:guard/user/Models/Guard.dart';
-import 'package:guard/user/Resource/Auth_Methods.dart';
+import 'package:guard/users/Models/Guard.dart';
+import 'package:guard/users/Resource/Auth_Methods.dart';
 
 class UserProvider with ChangeNotifier {
   GuardModel? _user = const GuardModel(
