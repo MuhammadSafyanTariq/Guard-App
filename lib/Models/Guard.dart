@@ -1,44 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GuardModel {
-  final String? email;
-  final String? uid;
-  final String? photoUrl;
-  final String? username;
-  final String? bio;
-  final List? followers;
-  final List? following;
+  final String FullName;
+  final String uid;
+  final String email;
+  final String phone;
+  final List<String> BadgeType;
+  final String DrivingLicence;
+  final String City;
+  final List<String> Shift;
 
-  const GuardModel(
-      {required this.username,
-      required this.uid,
-      required this.photoUrl,
-      required this.email,
-      required this.bio,
-      required this.followers,
-      required this.following});
+  const GuardModel({
+    required this.FullName,
+    required this.uid,
+    required this.email,
+    required this.phone,
+    required this.BadgeType,
+    required this.DrivingLicence,
+    required this.City,
+    required this.Shift,
+  });
 
   static GuardModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String?, dynamic>;
 
     return GuardModel(
-      username: snapshot["username"],
+      FullName: snapshot["FullName"],
       uid: snapshot["uid"],
-      photoUrl: snapshot["photoUrl"],
       email: snapshot["email"],
-      bio: snapshot["bio"],
-      followers: snapshot["followers"],
-      following: snapshot["following"],
+      phone: snapshot["phone"],
+      BadgeType: snapshot["BadgeType"],
+      DrivingLicence: snapshot["DrivingLicence"],
+      City: snapshot["City"],
+      Shift: snapshot["Shift"],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "username": username,
+        "FullName": FullName,
         "uid": uid,
-        "photoUrl": photoUrl,
         "email": email,
-        "bio": bio,
-        "followers": followers,
-        "following": following,
+        "phone": phone,
+        "BadgeType": BadgeType,
+        "DrivingLicence": DrivingLicence,
+        "City": City,
+        "Shift": Shift,
       };
 }

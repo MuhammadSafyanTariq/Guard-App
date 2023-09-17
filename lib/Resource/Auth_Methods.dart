@@ -22,41 +22,48 @@ class AuthMethods {
   // Signing Up User
 
   Future<String> signUpUser({
+    required String FullName,
     required String email,
     required String password,
-    required String username,
-    required String bio,
-    required Uint8List file,
+    required String phone,
+    required List<String> BadgeType,
+    required String DrivingLicence,
+    required String City,
+    required List<String> Shift,
   }) async {
     String res = "Some error Occurred";
     try {
-      if (email.isNotEmpty ||
+      if (FullName.isNotEmpty ||
+          email.isNotEmpty ||
           password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty ||
-          file != null) {
+          phone.isNotEmpty ||
+          BadgeType.isNotEmpty ||
+          DrivingLicence.isNotEmpty ||
+          Shift.isNotEmpty ||
+          City.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        String photoUrl = await StorageMehtods()
-            .uploadImagetoStorage('profilePics', file, false);
+        // String photoUrl = await StorageMehtods()
+        //     .uploadImagetoStorage('profilePics', file, false);
 
         GuardModel _user = GuardModel(
-          username: username,
+          FullName: FullName,
           uid: cred.user!.uid,
-          photoUrl: photoUrl,
           email: email,
-          bio: bio,
-          followers: [],
-          following: [],
+          phone: phone,
+          BadgeType: BadgeType,
+          DrivingLicence: DrivingLicence,
+          City: City,
+          Shift: Shift,
         );
 
         // adding user in our database
         await _firestore
-            .collection("users")
+            .collection("guard")
             .doc(cred.user!.uid)
             .set(_user.toJson());
 
