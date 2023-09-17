@@ -2,45 +2,39 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:guard/Models/Guard.dart';
-import 'package:guard/Resource/storage_methods.dart';
+import 'package:guard/admin/Models/Employer.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // get user details
-  Future<GuardModel> getUserDetails() async {
+  Future<EmployerModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
     DocumentSnapshot documentSnapshot =
         await _firestore.collection('users').doc(currentUser.uid).get();
 
-    return GuardModel.fromSnap(documentSnapshot);
+    return EmployerModel.fromSnap(documentSnapshot);
   }
 
   // Signing Up User
 
   Future<String> signUpUser({
-    required String FullName,
-    required String email,
-    required String password,
+    required String companyName,
+    required String address,
     required String phone,
-    required List<String> BadgeType,
-    required String DrivingLicence,
-    required String City,
-    required List<String> Shift,
+    required String email,
+    required String correspondingPerson,
+    required String password,
   }) async {
     String res = "Some error Occurred";
     try {
-      if (FullName.isNotEmpty ||
+      if (companyName.isNotEmpty ||
           email.isNotEmpty ||
-          password.isNotEmpty ||
+          address.isNotEmpty ||
           phone.isNotEmpty ||
-          BadgeType.isNotEmpty ||
-          DrivingLicence.isNotEmpty ||
-          Shift.isNotEmpty ||
-          City.isNotEmpty) {
+          correspondingPerson.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -50,20 +44,18 @@ class AuthMethods {
         // String photoUrl = await StorageMehtods()
         //     .uploadImagetoStorage('profilePics', file, false);
 
-        GuardModel _user = GuardModel(
-          FullName: FullName,
-          uid: cred.user!.uid,
+        EmployerModel _user = EmployerModel(
+          companyName: companyName,
+          uid: _auth.currentUser!.uid,
           email: email,
           phone: phone,
-          BadgeType: BadgeType,
-          DrivingLicence: DrivingLicence,
-          City: City,
-          Shift: Shift,
+          correspondingPerson: correspondingPerson,
+          address: address,
         );
 
         // adding user in our database
         await _firestore
-            .collection("guard")
+            .collection("users")
             .doc(cred.user!.uid)
             .set(_user.toJson());
 

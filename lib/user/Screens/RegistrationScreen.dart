@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:guard/Screens/LoginScreen.dart';
+import 'package:guard/user/Farms/EmployerForm.dart';
+import 'package:guard/user/Farms/GaurdForm.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
-
+class RegistrationScreen extends StatefulWidget {
   @override
-  State<Profile> createState() => _ProfileState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
-
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            'Register',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+        ),
         body: Center(
           child: Container(
             padding: EdgeInsets.all(20),
@@ -55,31 +60,21 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: 40),
                 Text(
-                  'John Doe', // Replace with user's name
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'I am A ',
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
-                Text(
-                  'john.doe@example.com', // Replace with user's email
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => GuardForm()),
                     );
-                    // Add logic for editing profile
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -87,13 +82,32 @@ class _ProfileState extends State<Profile> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Edit Profile',
-                      style: TextStyle(
-                        fontSize: 30,
-                      ),
+                      'Guard',
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EmployerForm()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Employer',
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
               ],
             ),
           ),

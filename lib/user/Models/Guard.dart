@@ -9,6 +9,7 @@ class GuardModel {
   final String DrivingLicence;
   final String City;
   final List<String> Shift;
+  final String type;
 
   const GuardModel({
     required this.FullName,
@@ -19,6 +20,7 @@ class GuardModel {
     required this.DrivingLicence,
     required this.City,
     required this.Shift,
+    required this.type,
   });
 
   static GuardModel fromSnap(DocumentSnapshot snap) {
@@ -33,6 +35,7 @@ class GuardModel {
       DrivingLicence: snapshot["DrivingLicence"],
       City: snapshot["City"],
       Shift: snapshot["Shift"],
+      type: snapshot['type'],
     );
   }
 

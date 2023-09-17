@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guard/Resource/Auth_Methods.dart';
-import 'package:guard/Screens/MainPage.dart';
-import 'package:guard/utils/utils.dart';
+import 'package:guard/user/Resource/Auth_Methods.dart';
+import 'package:guard/user/Screens/MainPage.dart';
+import 'package:guard/user/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class GuardForm extends StatefulWidget {

@@ -1,30 +1,16 @@
-// import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Your App Name',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue, // Set your app's theme colors
-//       ),
-//       home: LoginScreen(), // Replace with your actual login screen widget
-//     );
-//   }
-// }
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/Provider/user_provider.dart';
-import 'package:guard/Screens/LoginScreen.dart';
-import 'package:guard/Screens/MainPage.dart';
+import 'package:guard/admin/Farms/EmployerForm.dart';
+import 'package:guard/user/Provider/user_provider.dart';
+import 'package:guard/user/Screens/LoginScreen.dart';
+import 'package:guard/user/Screens/MainPage.dart';
+import 'package:guard/user/utils/utils.dart';
+
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -55,14 +41,52 @@ void main() async {
       measurementId: 'G-P618QF7CST',
     ));
   }
-  runApp(const MyApp());
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // _auth.signOut();
+
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var userData = {};
+  String type = '';
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('employer')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      if (userSnap.exists) {
+        userData = userSnap.data() as Map<String, dynamic>;
+        setState(() {});
+        type = userData['type'];
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('build..............${userData['type']}');
+    print('type---------------------->$type');
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -71,7 +95,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'SIA',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
         ),
@@ -94,7 +118,17 @@ class MyApp extends StatelessWidget {
                   // ),
                   splashTransition: SplashTransition.slideTransition,
                   backgroundColor: Colors.black,
-                  nextScreen: MainPage(),
+                  nextScreen: type == 'employer'
+                      ? Center(
+                          child: Container(
+                            child: Text('I am an Employer'),
+                          ),
+                        )
+                      : Center(
+                          child: Container(
+                            child: Text('I am a Guard'),
+                          ),
+                        ),
                 );
               } else if (snapshot.hasError) {
                 return const Center(

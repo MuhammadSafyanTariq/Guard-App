@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guard/Resource/Auth_Methods.dart';
-import 'package:guard/Screens/MainPage.dart';
-import 'package:guard/utils/utils.dart';
+import 'package:guard/user/Resource/Auth_Methods.dart';
+import 'package:guard/user/Screens/MainPage.dart';
+import 'package:guard/user/utils/utils.dart';
 
 import 'RegistrationScreen.dart'; // Replace with your actual import path
 
@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(
@@ -112,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 10),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -135,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Implement login functionality
+                  LoginUser();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                 child: Padding(
