@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1069664606978",
+    "project_id": "gaurdpass",
+    "storage_bucket": "gaurdpass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069664606978:android:3142a12490d3631f68001b",
+        "android_client_info": {
+          "package_name": "com.example.guard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfx5wXFofo14szyuCYfa0DGRUt1ormCIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069664606978:android:dfea3aa6601016d568001b",
+        "android_client_info": {
+          "package_name": "com.example.sia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfx5wXFofo14szyuCYfa0DGRUt1ormCIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
