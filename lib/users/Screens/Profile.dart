@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
 class Profile extends StatefulWidget {
@@ -75,6 +76,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    AuthMethods().signOut();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -87,7 +89,7 @@ class _ProfileState extends State<Profile> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Edit Profile',
+                      'Log out',
                       style: TextStyle(
                         fontSize: 30,
                       ),

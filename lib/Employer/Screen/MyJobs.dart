@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../Employer/Forms/JobForm.dart';
+import '../Forms/JobForm.dart';
 
-class MyAds extends StatefulWidget {
-  const MyAds({super.key});
+class MyJobs extends StatefulWidget {
+  const MyJobs({super.key});
 
   @override
-  State<MyAds> createState() => _MyAdsState();
+  State<MyJobs> createState() => _MyJobsState();
 }
 
-class _MyAdsState extends State<MyAds> {
+class _MyJobsState extends State<MyJobs> {
   void _showAdCreationMenu(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,

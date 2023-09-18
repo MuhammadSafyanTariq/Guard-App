@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:guard/users/Screens/MyAds.dart';
-import 'Invite.dart';
-import 'Dash.dart';
-import 'Profile.dart';
+import 'package:guard/Employer/Screen/MyJobs.dart';
+import '../../users/Screens/Invite.dart';
+import '../../users/Screens/JobList.dart';
+import '../../users/Screens/Profile.dart';
 
 class MainPage2 extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _MainPage2State extends State<MainPage2> {
   List<Widget> _pages = [
     Profile(),
     Dash(),
-    MyAds(),
+    MyJobs(),
     Invite(),
   ];
 

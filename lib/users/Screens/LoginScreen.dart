@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Screen/MainPage2.dart';
+import 'package:guard/main.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';
 
 import 'RegistrationScreen.dart'; // Replace with your actual import path
+
+String? type;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,12 +21,32 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   final AuthMethods _authMethods = AuthMethods();
-
+  var userData = {};
   @override
-  void dispose() {
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+  void initState() {
+    super.initState();
+  }
+
+  getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      print(userSnap);
+
+      if (userSnap.exists) {
+        userData = userSnap.data() as Map<String, dynamic>;
+        type = userData['type'];
+        //Here I am getting the right type
+        print(
+            ';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;$type');
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
   }
 
   void LoginUser() async {
@@ -29,13 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     String res = await _authMethods.loginUser(
         email: _emailController.text, password: _passwordController.text);
-    setState(() {
-      _isLoading = false;
-    });
     if (res == "success") {
+      await getData();
+      //But Here I am getting type null
+      print('typeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee$type');
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) =>
+              userData['type'] == "employer" ? MainPage2() : MainPage(),
         ),
       );
     } else {
@@ -52,7 +79,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(type);
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return Scaffold(

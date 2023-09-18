@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Invite.dart';
-import 'Dash.dart';
+import 'JobList.dart';
 import 'MyJobs.dart';
 import 'Profile.dart';
 
