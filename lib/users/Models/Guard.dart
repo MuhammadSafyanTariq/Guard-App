@@ -48,5 +48,6 @@ class GuardModel {
         "DrivingLicence": DrivingLicence,
         "City": City,
         "Shift": Shift,
+        "type": "Guard",
       };
 }

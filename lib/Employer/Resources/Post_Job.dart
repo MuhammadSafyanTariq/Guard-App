@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:guard/admin/Models/Employer.dart';
-import 'package:guard/users/Models/Job.dart';
+import 'package:guard/Employer/Models/Job.dart';
 import 'package:uuid/uuid.dart';
 
 class JobMethods {
@@ -15,6 +15,15 @@ class JobMethods {
     required String description,
     required String email,
     required String city,
+    required String benefits, // Add the new fields here
+    required String correspondingPerson,
+    required String jobType,
+    required String location,
+    required String position,
+    required String rate,
+    required String rateType,
+    required String shift,
+    required String venue,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -25,18 +34,25 @@ class JobMethods {
         String jid = Uuid().v1();
 
         JobModel jobModel = JobModel(
-            jid: jid,
-            title: title,
-            description: description,
-            eid: _auth.currentUser!.uid,
-            empContactEmail: email,
-            city: city);
+          jid: jid,
+          title: title,
+          description: description,
+          eid: _auth.currentUser!.uid,
+          empContactEmail: email,
+          city: city,
+          benefits: benefits, // Assign the new fields here
+          correspondingPerson: correspondingPerson,
+          jobType: jobType,
+          location: location,
+          position: position,
+          rate: rate,
+          rateType: rateType,
+          shift: shift,
+          venue: venue,
+        );
 
         // adding user in our database
-        await _firestore
-            .collection("job")
-            .doc(_auth.currentUser!.uid)
-            .set(jobModel.toJson());
+        await _firestore.collection("job").doc(jid).set(jobModel.toJson());
 
         res = "success";
       } else {

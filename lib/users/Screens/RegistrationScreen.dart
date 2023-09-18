@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guard/users/Farms/JobForm.dart';
-import 'package:guard/users/Farms/GaurdForm.dart';
+import 'package:guard/Employer/Forms/JobForm.dart';
+import 'package:guard/users/Forms/GaurdForm.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override

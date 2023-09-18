@@ -5,10 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/users/Farms/JobForm.dart';
+import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/users/Provider/user_provider.dart';
+import 'package:guard/users/Screens/JobDetails.dart';
+import 'package:guard/users/Screens/Dash.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 import 'package:guard/users/Screens/MainPage.dart';
+import 'package:guard/users/Screens/MyJobs.dart';
 import 'package:guard/users/utils/utils.dart';
 
 import 'package:provider/provider.dart';
