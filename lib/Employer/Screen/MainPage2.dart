@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guard/Employer/Screen/MyJobs.dart';
+import 'package:guard/Employer/Screen/PostJobs.dart';
 import '../../users/Screens/Invite.dart';
-import '../../users/Screens/JobList.dart';
+import 'EmployeJob.dart';
 import '../../users/Screens/Profile.dart';
 
 class MainPage2 extends StatefulWidget {
@@ -13,8 +13,8 @@ class _MainPage2State extends State<MainPage2> {
   int _currentIndex = 0;
   List<Widget> _pages = [
     Profile(),
-    Dash(),
-    MyJobs(),
+    EmployeeJobs(),
+    PostJob(),
     Invite(),
   ];
 

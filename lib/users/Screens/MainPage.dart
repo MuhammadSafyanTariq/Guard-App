@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Invite.dart';
-import 'JobList.dart';
+import '../../Employer/Screen/EmployeJob.dart';
 import 'MyJobs.dart';
 import 'Profile.dart';
 
@@ -13,7 +13,7 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   List<Widget> _pages = [
     Profile(),
-    Dash(),
+    MyJobs(),
     MyJobs(),
     Invite(),
   ];
