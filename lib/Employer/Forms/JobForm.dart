@@ -9,12 +9,60 @@ class JobForm extends StatefulWidget {
 }
 
 class _JobFormState extends State<JobForm> {
-  String _selectedLocation = 'City 1'; // Set an initial value from the list
+  String _selectedLocation = 'Belfast'; // Set an initial value from the list
   String _selectedShift = 'Day'; // Set an initial value from the list
   String _selectedRateType = 'Per Hour'; // Set an initial value from the list
   String _selectedJobType = 'Permanent'; // Set an initial value from the list
 
-  List<String> _locations = ['City 1', 'City 2', 'City 3', 'City 4'];
+  List<String> _locations = [
+    'Belfast',
+    'Birmingham',
+    'Bradford',
+    'Brighton and Hove',
+    'Bristol',
+    'Cambridge',
+    'Cardiff',
+    'Coventry',
+    'Derby',
+    'Edinburgh',
+    'Glasgow',
+    'Leeds',
+    'Leicester',
+    'Liverpool',
+    'London',
+    'Manchester',
+    'Newcastle upon Tyne',
+    'Nottingham',
+    'Oxford',
+    'Plymouth',
+    'Portsmouth',
+    'Sheffield',
+    'Southampton',
+    'Stoke-on-Trent',
+    'Sunderland',
+    'Swansea',
+    'Wakefield',
+    'Wolverhampton',
+    'York'
+  ];
+
+  Widget buildCityDropdown() {
+    List<DropdownMenuItem<String>> items = _locations.map((city) {
+      return DropdownMenuItem<String>(value: city, child: Text(city));
+    }).toList();
+
+    return DropdownButtonFormField<String>(
+      value: _selectedLocation,
+      onChanged: (value) {
+        setState(() {
+          _selectedLocation = value!;
+        });
+      },
+      items: items,
+      decoration: InputDecoration(labelText: 'Select City'),
+    );
+  }
+
   List<String> _shifts = ['Day', 'Night', 'Other'];
   List<String> _rateTypes = ['Per Hour', 'Per Day', 'Per Shift', 'Per Month'];
   List<String> _jobTypes = ['Permanent', 'Part-time', 'Cover'];
@@ -145,27 +193,7 @@ class _JobFormState extends State<JobForm> {
                 ),
               ),
               SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _selectedLocation,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLocation = value!;
-                  });
-                },
-                items: _locations.map((location) {
-                  return DropdownMenuItem(
-                    value: location,
-                    child: Text(location,
-                        style: TextStyle(
-                            color: Colors.black)), // Change text color
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Location',
-                  labelStyle:
-                      TextStyle(color: Colors.black), // Change label color
-                ),
-              ),
+              buildCityDropdown(),
               SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedShift,

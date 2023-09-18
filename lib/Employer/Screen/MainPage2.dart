@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/PostJobs.dart';
 import '../../users/Screens/Invite.dart';
 import 'EmployeJob.dart';
@@ -12,10 +13,10 @@ class MainPage2 extends StatefulWidget {
 class _MainPage2State extends State<MainPage2> {
   int _currentIndex = 0;
   List<Widget> _pages = [
-    Profile(),
     EmployeeJobs(),
-    PostJob(),
+    JobForm(),
     Invite(),
+    Profile(),
   ];
 
   @override

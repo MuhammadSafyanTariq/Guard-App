@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SingleJobCard extends StatelessWidget {
+class SingleJobCardEmploye extends StatelessWidget {
   final snap;
-  const SingleJobCard({super.key, this.snap});
+  const SingleJobCardEmploye({super.key, this.snap});
 
   @override
   Widget build(BuildContext context) {

@@ -1,25 +1,15 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/MainScreen.dart';
 import 'package:guard/users/Provider/user_provider.dart';
-import 'package:guard/Employer/Forms/JobForm.dart';
-import 'package:guard/users/Screens/Invite.dart';
-import 'package:guard/users/Screens/JobDetails.dart';
-import 'package:guard/Employer/Screen/EmployeJob.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/Employer/Screen/MainPage2.dart';
-import 'package:guard/Employer/Screen/PostJobs.dart';
-import 'package:guard/users/Screens/MyJobs.dart';
-import 'package:guard/users/Screens/Profile.dart';
-import 'package:guard/users/Screens/RegistrationScreen.dart';
-import 'package:guard/users/utils/utils.dart';
-
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -155,8 +145,13 @@ class _MyAppState extends State<MyApp> {
     // Add logic to return the appropriate screen based on the user's type
     if (userType == "employer") {
       return MainPage2();
-    } else {
+    } else if (userType == "Guard") {
       return MainPage();
+    } else {
+      return Container(
+          child: Center(
+        child: Text("Check your Network connection"),
+      ));
     }
   }
 }

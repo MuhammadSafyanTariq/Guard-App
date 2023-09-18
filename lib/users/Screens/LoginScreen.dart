@@ -38,9 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
         type = userData['type'];
-        //Here I am getting the right type
-        print(
-            ';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;$type');
       } else {
         print('Document does not exist');
       }
@@ -57,12 +54,16 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
     if (res == "success") {
       await getData();
-      //But Here I am getting type null
-      print('typeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee$type');
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>
-              userData['type'] == "employer" ? MainPage2() : MainPage(),
+          builder: (context) => userData['type'] == "employer"
+              ? MainPage2()
+              : userData['type'] == 'Guard'
+                  ? MainPage()
+                  : Container(
+                      child: Center(
+                      child: Text("Check your Network connection"),
+                    )),
         ),
       );
     } else {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
@@ -10,6 +11,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
@@ -59,11 +61,11 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'John Doe', // Replace with user's name
+                  'Hello ${_auth.currentUser!.email}', // Replace with user's name
                   style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
                 SizedBox(height: 10),
                 Text(

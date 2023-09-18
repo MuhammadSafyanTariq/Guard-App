@@ -63,4 +63,12 @@ class JobMethods {
     }
     return res;
   }
+
+  Future<void> deleteJob(String jid) async {
+    try {
+      await _firestore.collection('job').doc(jid).delete();
+    } catch (error) {
+      print(error.toString());
+    }
+  }
 }

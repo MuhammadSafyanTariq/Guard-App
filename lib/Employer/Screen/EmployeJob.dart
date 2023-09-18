@@ -1,29 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/Screens/SingleJobCard.dart';
+import 'package:guard/Employer/Screen/SingleJobCard.dart';
 
 class EmployeeJobs extends StatelessWidget {
-  final List<Ad> ads = [
-    Ad(
-      title: 'Security Guard Needed',
-      description: 'Looking for a security guard for night shift.',
-      contactInfo: 'Contact: John Doe (john@example.com)',
-    ),
-    Ad(
-      title: 'CCTV Operator Position',
-      description: 'Hiring a CCTV operator with experience.',
-      contactInfo: 'Contact: Jane Smith (jane@example.com)',
-    ),
-    // Add more ads here...
-  ];
-
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("MY JOBS"),
+          backgroundColor: Colors.black,
+        ),
         body: Center(
           child: Container(
             padding: EdgeInsets.all(6),
@@ -79,7 +69,7 @@ class EmployeeJobs extends StatelessWidget {
                   }
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) => SingleJobCard(
+                    itemBuilder: (context, index) => SingleJobCardEmployer(
                       snap: snapshot.data!.docs[index].data(),
                     ),
                   );
@@ -89,17 +79,6 @@ class EmployeeJobs extends StatelessWidget {
       ),
     );
   }
-}
-
-class Ad {
-  final String title;
-  final String description;
-  final String contactInfo;
-
-  Ad(
-      {required this.title,
-      required this.description,
-      required this.contactInfo});
 }
 
 void main() {
