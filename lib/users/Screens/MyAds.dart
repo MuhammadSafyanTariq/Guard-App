@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Ads.dart';
+import '../../Employer/Forms/JobForm.dart';
 
 class MyAds extends StatefulWidget {
   const MyAds({super.key});
@@ -9,32 +9,32 @@ class MyAds extends StatefulWidget {
 }
 
 class _MyAdsState extends State<MyAds> {
-void _showAdCreationMenu(BuildContext context) {
-  showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true, // Set to true for a full-height bottom sheet
-    builder: (BuildContext context) {
-      return FractionallySizedBox(
-        heightFactor: 0.8, // Set to 70% of the screen height
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Ads(), // Display Ads page as slide-up menu
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+  void _showAdCreationMenu(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: JobForm(), // Display Ads page as slide-up menu
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
-      child: Scaffold( 
+      child: Scaffold(
         body: Center(
           child: Column(
             children: [
@@ -97,21 +97,21 @@ void _showAdCreationMenu(BuildContext context) {
                     ),
                     SizedBox(width: 30),
                     ElevatedButton(
-      onPressed: () {
-      _showAdCreationMenu(context); // Show bottom sheet
-      },
-      style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.black,
-      ),
-      child: Text(
-      'Create Ad',
-      style: TextStyle(
-        fontSize: 20,
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-      ),
-    ),
+                      onPressed: () {
+                        _showAdCreationMenu(context); // Show bottom sheet
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                      ),
+                      child: Text(
+                        'Create Ad',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

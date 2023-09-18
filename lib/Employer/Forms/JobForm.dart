@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Resources/Post_Job.dart';
+import 'package:guard/users/Screens/JobDetails.dart';
 import 'package:guard/users/utils/utils.dart';
 
 class JobForm extends StatefulWidget {
@@ -8,6 +9,46 @@ class JobForm extends StatefulWidget {
 }
 
 class _JobFormState extends State<JobForm> {
+  String _selectedLocation = 'City 1'; // Set an initial value from the list
+  String _selectedShift = 'Day'; // Set an initial value from the list
+  String _selectedRateType = 'Per Hour'; // Set an initial value from the list
+  String _selectedJobType = 'Permanent'; // Set an initial value from the list
+
+  List<String> _locations = ['City 1', 'City 2', 'City 3', 'City 4'];
+  List<String> _shifts = ['Day', 'Night', 'Other'];
+  List<String> _rateTypes = ['Per Hour', 'Per Day', 'Per Shift', 'Per Month'];
+  List<String> _jobTypes = ['Permanent', 'Part-time', 'Cover'];
+
+  TextEditingController _positionController = TextEditingController();
+  TextEditingController _rateController = TextEditingController();
+  TextEditingController _venueController = TextEditingController();
+  TextEditingController _correspondingPersonController =
+      TextEditingController();
+  TextEditingController _benefitsController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+
+  void _navigateToAdDetailsPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AdDetailsPage(
+          position: _positionController.text,
+          location: _selectedLocation,
+          shift: _selectedShift,
+          rate: _rateController.text,
+          rateType: _selectedRateType,
+          venue: _venueController.text,
+          correspondingPerson: _correspondingPersonController.text,
+          jobType: _selectedJobType,
+          benefits: _benefitsController.text,
+          description: _descriptionController.text,
+        ),
+      ),
+    );
+  }
+
   bool _isLoading = false;
   final JobMethods _jobMethods = JobMethods();
 
@@ -18,14 +59,14 @@ class _JobFormState extends State<JobForm> {
     });
 
     res = await _jobMethods.postJob(
-      title: _jobTitleController.text,
-      description: _descController.text,
+      title: _titleController.text,
+      description: _descriptionController.text,
       email: _emailController.text,
-      city: _selectedCity ?? '',
+      city: _selectedLocation,
       benefits: _benefitsController.text,
-      correspondingPerson: _corresPersonController.text,
+      correspondingPerson: _correspondingPersonController.text,
       jobType: _selectedJobType ?? '',
-      location: _locationController.text,
+      location: _selectedLocation,
       position: _positionController.text,
       rate: _rateController.text,
       rateType: _selectedRateType ?? '',
@@ -36,7 +77,7 @@ class _JobFormState extends State<JobForm> {
     if (res != 'success') {
       showSnackBar(res, context);
     } else {
-      // Navigate to the success screen or perform other actions
+      _navigateToAdDetailsPage();
     }
 
     setState(() {
@@ -46,292 +87,226 @@ class _JobFormState extends State<JobForm> {
     return res;
   }
 
-  int _currentStep = 0;
-
-  final TextEditingController _jobTitleController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _corresPersonController = TextEditingController();
-  final TextEditingController _benefitsController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _positionController = TextEditingController();
-  final TextEditingController _rateController = TextEditingController();
-  final TextEditingController _venueController = TextEditingController();
-
-  String? _selectedCity;
-  String? _selectedShift;
-  String? _selectedJobType;
-  String? _selectedRateType;
-
-  List<String> cities = [
-    'Belfast',
-    'Birmingham',
-    'Bradford',
-    // Add more cities here
-  ];
-
-  List<String> shifts = [
-    'Day',
-    'Night',
-    'Any',
-  ];
-
-  List<String> jobTypes = [
-    'Security Guard',
-    'Door Supervisor',
-    'CCTV',
-    'Close Protection',
-    // Add more job types here
-  ];
-
-  List<String> rateTypes = [
-    'Hourly',
-    'Weekly',
-    'Monthly',
-    // Add more rate types here
-  ];
-
   @override
   Widget build(BuildContext context) {
+    double W = MediaQuery.of(context).size.width;
+    double H = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('Post A Job'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stepper(
-              steps: _buildSteps(),
-              currentStep: _currentStep,
-              onStepTapped: (step) {
-                setState(() {
-                  _currentStep = step;
-                });
-              },
-              onStepContinue: () {
-                if (_currentStep < _buildSteps().length - 1) {
+      backgroundColor: Colors.grey[600],
+      body: Container(
+        padding: EdgeInsets.all(20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              Color.fromARGB(255, 189, 187, 187),
+              Color.fromARGB(255, 157, 156, 156)
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Text(
+                'My Ad',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: H * 0.03),
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: 'Job title',
+                  labelStyle:
+                      TextStyle(color: Colors.black), // Change label color
+                ),
+              ),
+              TextField(
+                controller: _positionController,
+                decoration: InputDecoration(
+                  labelText: 'Position',
+                  labelStyle:
+                      TextStyle(color: Colors.black), // Change label color
+                ),
+              ),
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedLocation,
+                onChanged: (value) {
                   setState(() {
-                    _currentStep++;
+                    _selectedLocation = value!;
                   });
-                } else {
-                  postJob();
-                }
-              },
-              onStepCancel: () {
-                if (_currentStep > 0) {
+                },
+                items: _locations.map((location) {
+                  return DropdownMenuItem(
+                    value: location,
+                    child: Text(location,
+                        style: TextStyle(
+                            color: Colors.black)), // Change text color
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Location',
+                  labelStyle:
+                      TextStyle(color: Colors.black), // Change label color
+                ),
+              ),
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedShift,
+                onChanged: (value) {
                   setState(() {
-                    _currentStep--;
+                    _selectedShift = value!;
                   });
-                }
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                postJob();
-              },
-              child: Text('Post Job'),
-            ),
-          ],
+                },
+                items: _shifts.map((shift) {
+                  return DropdownMenuItem(
+                    value: shift,
+                    child: Text(shift),
+                  );
+                }).toList(),
+                decoration: InputDecoration(labelText: 'Shift'),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: _rateController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: 'Rate'),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    flex: 3,
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedRateType,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedRateType = value!;
+                        });
+                      },
+                      items: _rateTypes.map((rateType) {
+                        return DropdownMenuItem(
+                          value: rateType,
+                          child: Text(rateType),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(labelText: 'Rate Type'),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _venueController,
+                decoration: InputDecoration(labelText: 'Venue'),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _correspondingPersonController,
+                decoration: InputDecoration(labelText: 'Corresponding Person'),
+              ),
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedJobType,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedJobType = value!;
+                  });
+                },
+                items: _jobTypes.map((jobType) {
+                  return DropdownMenuItem(
+                    value: jobType,
+                    child: Text(jobType),
+                  );
+                }).toList(),
+                decoration: InputDecoration(labelText: 'Job Type'),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _benefitsController,
+                decoration: InputDecoration(labelText: 'Benefits'),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+              SizedBox(height: 20),
+              SizedBox(height: 20),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'Contact Email'),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      postJob();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    child: Text(
+                      '   Post   ',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  List<Step> _buildSteps() {
-    return [
-      Step(
-        title: Text('Job information'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _jobTitleController,
-              decoration: InputDecoration(labelText: 'Job Title'),
-            ),
-            TextField(
-              controller: _descController,
-              decoration: InputDecoration(labelText: 'Job Description'),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Contact Email'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('City'),
-        content: Column(
-          children: [
-            buildCityDropdown(),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Benefits'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _benefitsController,
-              decoration: InputDecoration(labelText: 'Benefits'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Corresponding Person'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _corresPersonController,
-              decoration: InputDecoration(labelText: 'Corresponding Person'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Location'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _locationController,
-              decoration: InputDecoration(labelText: 'Location'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Position'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _positionController,
-              decoration: InputDecoration(labelText: 'Position'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Rate'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _rateController,
-              decoration: InputDecoration(labelText: 'Rate'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Rate Type'),
-        content: Column(
-          children: [
-            buildRateTypeDropdown(),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Shift'),
-        content: Column(
-          children: [
-            buildShiftDropdown(),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Job Type'),
-        content: Column(
-          children: [
-            buildJobTypeCheckbox('Security Guard'),
-            buildJobTypeCheckbox('Door Supervisor'),
-            buildJobTypeCheckbox('CCTV'),
-            buildJobTypeCheckbox('Close Protection'),
-            // Add more job types here
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Venue'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _venueController,
-              decoration: InputDecoration(labelText: 'Venue'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-    ];
-  }
-
-  Widget buildCityDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedCity ?? cities[0],
-      onChanged: (value) {
-        setState(() {
-          _selectedCity = value;
-        });
-      },
-      items: cities.map((city) {
-        return DropdownMenuItem<String>(value: city, child: Text(city));
-      }).toList(),
-      decoration: InputDecoration(labelText: 'Select City'),
-    );
-  }
-
-  Widget buildShiftDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedShift,
-      onChanged: (value) {
-        setState(() {
-          _selectedShift = value;
-        });
-      },
-      items: shifts.map((shift) {
-        return DropdownMenuItem<String>(value: shift, child: Text(shift));
-      }).toList(),
-      decoration: InputDecoration(labelText: 'Select Shift'),
-    );
-  }
-
-  Widget buildRateTypeDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedRateType,
-      onChanged: (value) {
-        setState(() {
-          _selectedRateType = value;
-        });
-      },
-      items: rateTypes.map((rateType) {
-        return DropdownMenuItem<String>(
-          value: rateType,
-          child: Text(rateType),
-        );
-      }).toList(),
-      decoration: InputDecoration(labelText: 'Select Rate Type'),
-    );
-  }
-
-  Widget buildJobTypeCheckbox(String title) {
-    return CheckboxListTile(
-      title: Text(title),
-      value: _selectedJobType == title,
-      onChanged: (value) {
-        setState(() {
-          _selectedJobType = value! ? title : null;
-        });
-      },
-    );
+  @override
+  void dispose() {
+    _positionController.dispose();
+    _rateController.dispose();
+    _venueController.dispose();
+    _correspondingPersonController.dispose();
+    _benefitsController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 }
