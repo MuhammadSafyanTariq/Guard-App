@@ -36,10 +36,6 @@ class _MainPage2State extends State<MainPage2> {
           iconSize: 40, // Set unselected color to black
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.dashboard),
               label: 'Dash',
             ),
@@ -50,6 +46,10 @@ class _MainPage2State extends State<MainPage2> {
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Invite',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
             ),
           ],
         ),

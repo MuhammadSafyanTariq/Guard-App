@@ -16,8 +16,9 @@ class JobModel {
   final String rateType;
   final String shift;
   final String venue;
-
-  const JobModel({
+  final String jobBadge;
+  final List<String> candidates = [];
+  JobModel({
     required this.jid,
     required this.title,
     required this.description,
@@ -33,6 +34,7 @@ class JobModel {
     required this.rateType,
     required this.shift,
     required this.venue,
+    required this.jobBadge,
   });
 
   static JobModel fromSnap(DocumentSnapshot snap) {
@@ -54,6 +56,7 @@ class JobModel {
       rateType: snapshot["rateType"],
       shift: snapshot["shift"],
       venue: snapshot["venue"],
+      jobBadge: snapshot["jobBadge"],
     );
   }
 
@@ -73,5 +76,7 @@ class JobModel {
         "rateType": rateType,
         "shift": shift,
         "venue": venue,
+        "jobBadge": jobBadge,
+        "candidates": candidates,
       };
 }

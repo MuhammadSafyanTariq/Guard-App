@@ -24,6 +24,7 @@ class JobMethods {
     required String rateType,
     required String shift,
     required String venue,
+    required String jobBadge,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -49,6 +50,7 @@ class JobMethods {
           rateType: rateType,
           shift: shift,
           venue: venue,
+          jobBadge: jobBadge,
         );
 
         // adding user in our database

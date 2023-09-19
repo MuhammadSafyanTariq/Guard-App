@@ -13,6 +13,7 @@ class _JobFormState extends State<JobForm> {
   String _selectedShift = 'Day'; // Set an initial value from the list
   String _selectedRateType = 'Per Hour'; // Set an initial value from the list
   String _selectedJobType = 'Permanent'; // Set an initial value from the list
+  String _selectedBadge = 'Security Guard';
 
   List<String> _locations = [
     'Belfast',
@@ -46,6 +47,13 @@ class _JobFormState extends State<JobForm> {
     'York'
   ];
 
+  List<String> _jobBadges = [
+    'Security Guard',
+    'Door Supervisor',
+    'CCTV',
+    'Close Protection',
+  ];
+
   Widget buildCityDropdown() {
     List<DropdownMenuItem<String>> items = _locations.map((city) {
       return DropdownMenuItem<String>(value: city, child: Text(city));
@@ -63,7 +71,24 @@ class _JobFormState extends State<JobForm> {
     );
   }
 
-  List<String> _shifts = ['Day', 'Night', 'Other'];
+  Widget buildBadgeDropdown() {
+    List<DropdownMenuItem<String>> items = _jobBadges.map((city) {
+      return DropdownMenuItem<String>(value: city, child: Text(city));
+    }).toList();
+
+    return DropdownButtonFormField<String>(
+      value: _selectedBadge,
+      onChanged: (value) {
+        setState(() {
+          _selectedBadge = value!;
+        });
+      },
+      items: items,
+      decoration: InputDecoration(labelText: 'Select Badge'),
+    );
+  }
+
+  List<String> _shifts = ['Day', 'Night', 'Any'];
   List<String> _rateTypes = ['Per Hour', 'Per Day', 'Per Shift', 'Per Month'];
   List<String> _jobTypes = ['Permanent', 'Part-time', 'Cover'];
 
@@ -120,6 +145,7 @@ class _JobFormState extends State<JobForm> {
       rateType: _selectedRateType ?? '',
       shift: _selectedShift ?? '',
       venue: _venueController.text,
+      jobBadge: _selectedBadge,
     );
 
     if (res != 'success') {
@@ -192,6 +218,8 @@ class _JobFormState extends State<JobForm> {
                       TextStyle(color: Colors.black), // Change label color
                 ),
               ),
+              SizedBox(height: 20),
+              buildBadgeDropdown(),
               SizedBox(height: 20),
               buildCityDropdown(),
               SizedBox(height: 20),

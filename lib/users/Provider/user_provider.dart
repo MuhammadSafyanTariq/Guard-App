@@ -11,7 +11,7 @@ class UserProvider with ChangeNotifier {
     BadgeType: [],
     DrivingLicence: '',
     City: '',
-    Shift: [],
+    Shift: '',
     type: '',
   );
   final AuthMethods _authMethods = AuthMethods();

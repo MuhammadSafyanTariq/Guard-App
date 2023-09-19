@@ -61,7 +61,7 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Hello ${_auth.currentUser!.email}', // Replace with user's name
+                  'Hello ${_auth.currentUser?.email}', // Replace with user's name
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

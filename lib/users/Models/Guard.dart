@@ -8,10 +8,11 @@ class GuardModel {
   final List<String> BadgeType;
   final String DrivingLicence;
   final String City;
-  final List<String> Shift;
+  final String Shift;
   final String type;
+  final List<String> appliedForJobs = [];
 
-  const GuardModel({
+  GuardModel({
     required this.FullName,
     required this.uid,
     required this.email,
@@ -49,5 +50,6 @@ class GuardModel {
         "City": City,
         "Shift": Shift,
         "type": "Guard",
+        "appliedForJobs": appliedForJobs,
       };
 }

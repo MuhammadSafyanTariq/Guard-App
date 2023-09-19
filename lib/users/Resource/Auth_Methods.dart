@@ -28,7 +28,7 @@ class AuthMethods {
     required List<String> BadgeType,
     required String DrivingLicence,
     required String City,
-    required List<String> Shift,
+    required String Shift,
   }) async {
     String res = "Some error Occurred";
     try {

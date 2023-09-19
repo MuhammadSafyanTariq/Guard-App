@@ -19,14 +19,15 @@ class _GuardFormState extends State<GuardForm> {
       _isLoading = true;
     });
     res = await _authMethods.signUpUser(
-        FullName: _fullName!,
-        email: _email!,
-        password: _passwordController.text,
-        phone: _phoneNumber!,
-        BadgeType: _selectedBadgeTypes,
-        DrivingLicence: _selectedDrivingLicense!,
-        City: _selectedRadius!,
-        Shift: _selectedShiftPreferences);
+      FullName: _fullName!,
+      email: _email!,
+      password: _passwordController.text,
+      phone: _phoneNumber!,
+      BadgeType: _selectedBadgeTypes,
+      DrivingLicence: _selectedDrivingLicense!,
+      City: _selectedRadius!,
+      Shift: _selectedShiftPreferences!,
+    );
     // setState(() {
     //   _isLoading = false;
     // });
@@ -48,7 +49,7 @@ class _GuardFormState extends State<GuardForm> {
   List<String> _selectedBadgeTypes = [];
   String? _selectedDrivingLicense;
   String? _selectedRadius;
-  List<String> _selectedShiftPreferences = [];
+  String _selectedShiftPreferences = 'Day';
   String? _fullName;
   String? _email;
   String? _phoneNumber;
@@ -122,6 +123,23 @@ class _GuardFormState extends State<GuardForm> {
     );
   }
 
+  Widget buildShiftDropdown() {
+    return DropdownButtonFormField<String>(
+      value: _selectedShiftPreferences,
+      onChanged: (value) {
+        setState(() {
+          _selectedShiftPreferences = value!;
+        });
+      },
+      items: [
+        DropdownMenuItem(value: 'Day', child: Text('Day')),
+        DropdownMenuItem(value: 'Night', child: Text('Night')),
+        DropdownMenuItem(value: 'Any', child: Text('Any')),
+      ],
+      decoration: InputDecoration(labelText: 'Select Shift'),
+    );
+  }
+
   Widget buildCityDropdown() {
     List<DropdownMenuItem<String>> items = cities.map((city) {
       return DropdownMenuItem<String>(value: city, child: Text(city));
@@ -139,21 +157,21 @@ class _GuardFormState extends State<GuardForm> {
     );
   }
 
-  Widget buildShiftPreferenceCheckbox(String title) {
-    return CheckboxListTile(
-      title: Text(title),
-      value: _selectedShiftPreferences.contains(title),
-      onChanged: (value) {
-        setState(() {
-          if (value ?? false) {
-            _selectedShiftPreferences.add(title);
-          } else {
-            _selectedShiftPreferences.remove(title);
-          }
-        });
-      },
-    );
-  }
+  // Widget buildShiftPreferenceCheckbox(String title) {
+  //   return CheckboxListTile(
+  //     title: Text(title),
+  //     value: _selectedShiftPreferences.contains(title),
+  //     onChanged: (value) {
+  //       setState(() {
+  //         if (value ?? false) {
+  //           _selectedShiftPreferences.add(title);
+  //         } else {
+  //           _selectedShiftPreferences.remove(title);
+  //         }
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -287,13 +305,7 @@ class _GuardFormState extends State<GuardForm> {
       ),
       Step(
         title: Text('Shift Preference'),
-        content: Column(
-          children: [
-            buildShiftPreferenceCheckbox('Day'),
-            buildShiftPreferenceCheckbox('Night'),
-            buildShiftPreferenceCheckbox('Any'),
-          ],
-        ),
+        content: buildShiftDropdown(),
         isActive: true,
       ),
     ];

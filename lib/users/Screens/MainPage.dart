@@ -14,8 +14,7 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   List<Widget> _pages = [
     Profile(),
-    MyJobs(),
-    JobForm(),
+    SearchJobScreen(),
     Invite(),
   ];
 
@@ -39,10 +38,10 @@ class _MainPageState extends State<MainPage> {
               icon: Icon(Icons.person),
               label: 'Profile',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: 'Dash',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.dashboard),
+            //   label: 'Dash',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.work),
               label: 'My Jobs',
