@@ -3,7 +3,7 @@ import 'package:guard/users/Models/Guard.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 
 class UserProvider with ChangeNotifier {
-  GuardModel? _user = const GuardModel(
+  GuardModel? _user = GuardModel(
     FullName: '',
     uid: '',
     email: '',

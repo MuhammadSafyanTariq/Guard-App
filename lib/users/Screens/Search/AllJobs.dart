@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class SearchJobScreen extends StatefulWidget {
+class AllJobsScreen extends StatefulWidget {
   @override
-  State<SearchJobScreen> createState() => _SearchJobScreenState();
+  State<AllJobsScreen> createState() => _AllJobsScreenState();
 }
 
-class _SearchJobScreenState extends State<SearchJobScreen> {
+class _AllJobsScreenState extends State<AllJobsScreen> {
   var userData = {};
 
   getData() async {
@@ -114,8 +114,4 @@ class _SearchJobScreenState extends State<SearchJobScreen> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(home: SearchJobScreen()));
 }

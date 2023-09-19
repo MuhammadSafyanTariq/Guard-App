@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/users/Forms/FilterForm.dart';
 import 'package:guard/users/Provider/user_provider.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 import 'package:guard/users/Screens/MainPage.dart';
@@ -77,14 +78,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  initState() {
-    super.initState();
-    getData().then((_) {
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -147,6 +140,7 @@ class _MyAppState extends State<MyApp> {
       return MainPage2();
     } else if (userType == "Guard") {
       return MainPage();
+      // return FilterForm();
     } else {
       return Container(
           child: Center(

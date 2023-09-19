@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
+import 'package:guard/users/Screens/Search/MainSearchScreen.dart';
 import 'Invite.dart';
 import '../../Employer/Screen/EmployeJob.dart';
-import 'MyJobs.dart';
+import 'Search/AllJobs.dart';
 import 'Profile.dart';
 
 class MainPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   List<Widget> _pages = [
     Profile(),
-    SearchJobScreen(),
+    MainSearchScreen(),
     Invite(),
   ];
 
