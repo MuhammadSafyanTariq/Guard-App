@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/MainPage2.dart';
 import 'package:guard/main.dart';
+import 'package:guard/users/Forms/GaurdForm.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';
@@ -192,8 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => RegistrationScreen()),
+                    MaterialPageRoute(builder: (context) => GuardForm()),
                   );
                 },
                 child: Text(

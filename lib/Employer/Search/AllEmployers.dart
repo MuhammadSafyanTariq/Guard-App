@@ -1,33 +1,47 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Screen/SingleEmploye.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class FilteredJobsScreen extends StatefulWidget {
-  final List<String> selectedBadgeTypes;
-  final String selectedCity;
-  final String selectedShiftPreferences;
-
-  FilteredJobsScreen({
-    required this.selectedBadgeTypes,
-    required this.selectedCity,
-    required this.selectedShiftPreferences,
-  });
+class AllEmployersScreen extends StatefulWidget {
   @override
-  State<FilteredJobsScreen> createState() => _FilteredJobsScreenState();
+  State<AllEmployersScreen> createState() => _AllEmployersScreenState();
 }
 
-class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
+class _AllEmployersScreenState extends State<AllEmployersScreen> {
   var userData = {};
+
+  getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      print(userSnap);
+
+      if (userSnap.exists) {
+        userData = userSnap.data() as Map<String, dynamic>;
+        type = userData['type'];
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
 
   @override
   initState() {
     super.initState();
+    getData().then((_) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(type);
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -75,19 +89,10 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
               ),
             ),
             child: StreamBuilder(
-                stream: widget.selectedShiftPreferences == 'Any'
-                    ? FirebaseFirestore.instance
-                        .collection('job')
-                        .where('city', isEqualTo: widget.selectedCity)
-                        .where('jobBadge', whereIn: widget.selectedBadgeTypes)
-                        .snapshots()
-                    : FirebaseFirestore.instance
-                        .collection('job')
-                        .where('city', isEqualTo: widget.selectedCity)
-                        .where('jobBadge', whereIn: widget.selectedBadgeTypes)
-                        .where('shift',
-                            isEqualTo: widget.selectedShiftPreferences)
-                        .snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .where('type', isEqualTo: 'Guard')
+                    .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                         snapshot) {
@@ -99,7 +104,7 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
                   }
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) => SingleJobCardEmployer(
+                    itemBuilder: (context, index) => SingleJEmployeCard(
                       snap: snapshot.data!.docs[index].data(),
                     ),
                   );

@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/admin/Farms/EmployerForm.dart';
 import 'package:guard/users/Forms/FilterForm.dart';
 import 'package:guard/users/Provider/user_provider.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
@@ -105,7 +106,6 @@ class _MyAppState extends State<MyApp> {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 // But wrong here
-                print('-=-=-=-====================$type');
                 return AnimatedSplashScreen(
                   duration: 1000,
                   splashIconSize: 300,
@@ -146,26 +146,26 @@ class _MyAppState extends State<MyApp> {
     getData();
     if (userType == "employer") {
       return MainPage2();
+      // return EmployerForm();
     } else if (userType == "Guard") {
       return MainPage();
       // return FilterForm();
     } else {
-      return Container(
-          child: Center(
-        child: Column(
-          children: [
-            Text('So network issue has occured'),
-            ElevatedButton(
-              child: Text('Refresh'),
-              onPressed: () => setState(
-                () async {
-                  await getData();
-                },
-              ),
-            ),
-          ],
-        ),
-      ));
+      return Scaffold(
+        body: Container(
+            child: Center(
+          child: Column(
+            children: [
+              Text('So network issue has occured'),
+              ElevatedButton(
+                  child: Text('Refresh'),
+                  onPressed: () {
+                    getData();
+                  }),
+            ],
+          ),
+        )),
+      );
     }
   }
 }

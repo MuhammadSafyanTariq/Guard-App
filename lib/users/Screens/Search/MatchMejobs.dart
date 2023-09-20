@@ -10,7 +10,7 @@ class MatchedJobsScreen extends StatefulWidget {
 }
 
 class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
-  List<String> BadgeType = [''];
+  List<dynamic> BadgeType = [];
   String Shift = '';
   String city = '';
 
@@ -24,9 +24,9 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
 
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
-        BadgeType = userData['badgeType'];
+        BadgeType = userData['BadgeType'];
         print('Badge type                                    $BadgeType');
-        Shift = userData['shift'];
+        Shift = userData['Shift'];
         city = userData['City'];
       } else {
         print('Document does not exist');
@@ -46,7 +46,8 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(type);
+    // getData();
+    print('type                     $city');
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -97,8 +98,8 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
                 stream: FirebaseFirestore.instance
                     .collection('job')
                     .where('city', isEqualTo: city)
-                    .where('jobBadge', whereIn: BadgeType)
-                    .where('shift', isEqualTo: Shift)
+                    // .where('jobBadge', whereIn: BadgeType)
+                    // .where('shift', isEqualTo: Shift)
                     .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>

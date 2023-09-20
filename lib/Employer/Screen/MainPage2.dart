@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/PostJobs.dart';
+import 'package:guard/Employer/Search/MainSearchScreen.dart';
 import '../../users/Screens/Invite.dart';
 import 'EmployeJob.dart';
 import '../../users/Screens/Profile.dart';
@@ -15,7 +16,7 @@ class _MainPage2State extends State<MainPage2> {
   List<Widget> _pages = [
     EmployeeJobs(),
     JobForm(),
-    Invite(),
+    MainSearchScreen(),
     Profile(),
   ];
 

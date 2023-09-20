@@ -1,23 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Screen/SingleEmploye.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class FilteredJobsScreen extends StatefulWidget {
+class FilteredEmployersScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
   final String selectedCity;
   final String selectedShiftPreferences;
 
-  FilteredJobsScreen({
+  FilteredEmployersScreen({
     required this.selectedBadgeTypes,
     required this.selectedCity,
     required this.selectedShiftPreferences,
   });
   @override
-  State<FilteredJobsScreen> createState() => _FilteredJobsScreenState();
+  State<FilteredEmployersScreen> createState() =>
+      _FilteredEmployersScreenState();
 }
 
-class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
+class _FilteredEmployersScreenState extends State<FilteredEmployersScreen> {
   var userData = {};
 
   @override
@@ -77,16 +79,22 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
             child: StreamBuilder(
                 stream: widget.selectedShiftPreferences == 'Any'
                     ? FirebaseFirestore.instance
-                        .collection('job')
-                        .where('city', isEqualTo: widget.selectedCity)
-                        .where('jobBadge', whereIn: widget.selectedBadgeTypes)
+                        .collection('users')
+                        .where('type', isEqualTo: 'Guard')
+                        .where('City', isEqualTo: widget.selectedCity)
+                        .where('BadgeType',
+                            arrayContainsAny: widget.selectedBadgeTypes)
                         .snapshots()
                     : FirebaseFirestore.instance
-                        .collection('job')
-                        .where('city', isEqualTo: widget.selectedCity)
-                        .where('jobBadge', whereIn: widget.selectedBadgeTypes)
-                        .where('shift',
-                            isEqualTo: widget.selectedShiftPreferences)
+                        .collection('users')
+                        .where('type', isEqualTo: 'Guard')
+                        .where('City', isEqualTo: widget.selectedCity)
+                        .where('BadgeType',
+                            arrayContainsAny: widget.selectedBadgeTypes)
+                        .where(
+                          'Shift',
+                          isEqualTo: widget.selectedShiftPreferences,
+                        )
                         .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
@@ -99,7 +107,7 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
                   }
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) => SingleJobCardEmployer(
+                    itemBuilder: (context, index) => SingleJEmployeCard(
                       snap: snapshot.data!.docs[index].data(),
                     ),
                   );

@@ -102,66 +102,68 @@ class _EmployerFormState extends State<EmployerForm> {
         backgroundColor: Colors.black,
         title: Text('Employer Registration'),
       ),
-      body: Column(
-        children: [
-          Stepper(
-            steps: _steps,
-            currentStep: _currentStep,
-            onStepTapped: (step) {
-              setState(() {
-                _currentStep = step;
-              });
-            },
-            onStepContinue: () {
-              if (_currentStep < _steps.length - 1) {
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stepper(
+              steps: _steps,
+              currentStep: _currentStep,
+              onStepTapped: (step) {
                 setState(() {
-                  _currentStep++;
+                  _currentStep = step;
                 });
-              } else {
-                // Replace this with your navigation logic
-                // For example, you can use Navigator to push to the next screen.
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => MainPage2(),
-                //   ),
-                // );
-              }
-            },
-            onStepCancel: () {
-              if (_currentStep > 0) {
-                setState(() {
-                  _currentStep--;
-                });
-              }
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              },
+              onStepContinue: () {
+                if (_currentStep < _steps.length - 1) {
+                  setState(() {
+                    _currentStep++;
+                  });
+                } else {
+                  // Replace this with your navigation logic
+                  // For example, you can use Navigator to push to the next screen.
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MainPage2(),
+                  //   ),
+                  // );
+                }
+              },
+              onStepCancel: () {
+                if (_currentStep > 0) {
+                  setState(() {
+                    _currentStep--;
+                  });
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                obscureText: true,
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              SignUpUser();
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) =>
-              //           MainPage()), // Replace with the actual route
-              // );
-            },
-            child: Text('Register'),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () {
+                SignUpUser();
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) =>
+                //           MainPage()), // Replace with the actual route
+                // );
+              },
+              child: Text('Register'),
+            ),
+          ],
+        ),
       ),
     );
   }
