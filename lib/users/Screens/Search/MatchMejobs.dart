@@ -25,7 +25,7 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
         BadgeType = userData['badgeType'];
-        print(BadgeType);
+        print('Badge type                                    $BadgeType');
         Shift = userData['shift'];
         city = userData['City'];
       } else {

@@ -30,8 +30,13 @@ class _ProfileState extends State<Profile> {
         userData = userSnap.data() as Map<String, dynamic>;
         email = userData['email'];
         phone = userData['phone'];
-        city = userData['City'];
-        FullName = userData['FullName'];
+        if (userData['type'] == 'Guard') {
+          city = userData['City'];
+          FullName = userData['FullName'];
+        } else {
+          city = userData['address'];
+          FullName = userData['CompanyName'];
+        }
 
         //I am getting correct user type here
       } else {
@@ -110,13 +115,13 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   SizedBox(height: 50),
-                  SingleTextRow(text1: 'Full Name', text2: FullName!),
+                  SingleTextRow(text1: 'Full Name', text2: FullName),
                   SizedBox(height: 10),
                   SingleTextRow(text1: 'Email', text2: email!),
                   SizedBox(height: 10),
                   SingleTextRow(text1: 'Phone', text2: phone!),
                   SizedBox(height: 10),
-                  SingleTextRow(text1: 'City', text2: city!),
+                  SingleTextRow(text1: 'City', text2: city),
                   SizedBox(height: 10),
                   Spacer(),
                   ElevatedButton(

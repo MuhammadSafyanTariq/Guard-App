@@ -78,6 +78,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  initState() {
+    super.initState();
+    getData().then((_) {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -135,7 +143,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget getUserTypeScreen(String? userType) {
-    // Add logic to return the appropriate screen based on the user's type
+    getData();
     if (userType == "employer") {
       return MainPage2();
     } else if (userType == "Guard") {
@@ -144,7 +152,19 @@ class _MyAppState extends State<MyApp> {
     } else {
       return Container(
           child: Center(
-        child: Text("Check your Network connection"),
+        child: Column(
+          children: [
+            Text('So network issue has occured'),
+            ElevatedButton(
+              child: Text('Refresh'),
+              onPressed: () => setState(
+                () async {
+                  await getData();
+                },
+              ),
+            ),
+          ],
+        ),
       ));
     }
   }

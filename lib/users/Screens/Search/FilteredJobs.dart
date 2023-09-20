@@ -21,30 +21,9 @@ class FilteredJobsScreen extends StatefulWidget {
 class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
   var userData = {};
 
-  Stream<QuerySnapshot> getFilteredResults() {
-    CollectionReference collection =
-        FirebaseFirestore.instance.collection('propertyForm');
-
-    var query = collection
-        .where('City 3', isEqualTo: widget.selectedCity)
-        .where('City 4', isEqualTo: widget.selectedCity)
-        // .where(
-        //   'rent',
-        //   isEqualTo: widget.rent,
-        // )
-        // .where(
-        //   'propertyType',
-        //   isEqualTo: widget.propertyType,
-        // )
-        .snapshots();
-
-    return query;
-  }
-
   @override
   initState() {
     super.initState();
-    getFilteredResults();
   }
 
   @override
