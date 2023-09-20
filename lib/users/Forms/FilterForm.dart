@@ -20,7 +20,7 @@ class _FilterFormState extends State<FilterForm> {
   List<String> _selectedBadgeTypes = [''];
   List<String> _selectedDrivingLicense = [];
   String _selectedCity = 'Belfast';
-  String _selectedShiftPreferences = 'Day';
+  String _selectedJobType = 'Permanent';
   List<String> cities = [
     'Belfast',
     'Birmingham',
@@ -69,50 +69,18 @@ class _FilterFormState extends State<FilterForm> {
     );
   }
 
-  // Widget buildShiftCheckbox(String title) {
-  //   return CheckboxListTile(
-  //     title: Text(title),
-  //     value: _selectedShiftPreferences.contains(title),
-  //     onChanged: (value) {
-  //       setState(() {
-  //         if (value ?? false) {
-  //           _selectedShiftPreferences.add(title);
-  //         } else {
-  //           _selectedShiftPreferences.remove(title);
-  //         }
-  //       });
-  //     },
-  //   );
-  // }
-
-  // Widget buildLicenceCheckbox(String title) {
-  //   return CheckboxListTile(
-  //     title: Text(title),
-  //     value: _selectedDrivingLicense.contains(title),
-  //     onChanged: (value) {
-  //       setState(() {
-  //         if (value ?? false) {
-  //           _selectedDrivingLicense.add(title);
-  //         } else {
-  //           _selectedDrivingLicense.remove(title);
-  //         }
-  //       });
-  //     },
-  //   );
-  // }
-
   Widget buildShiftDropdown() {
     return DropdownButtonFormField<String>(
-      value: _selectedShiftPreferences,
+      value: _selectedJobType,
       onChanged: (value) {
         setState(() {
-          _selectedShiftPreferences = value!;
+          _selectedJobType = value!;
         });
       },
       items: [
-        DropdownMenuItem(value: 'Day', child: Text('Day')),
-        DropdownMenuItem(value: 'Night', child: Text('Night')),
-        DropdownMenuItem(value: 'Any', child: Text('Any')),
+        DropdownMenuItem(value: 'Permanent', child: Text('Permanent')),
+        DropdownMenuItem(value: 'Part-time', child: Text('Part-time')),
+        DropdownMenuItem(value: 'Cover', child: Text('Cover')),
       ],
       decoration: InputDecoration(labelText: 'Select Shift'),
     );
@@ -177,7 +145,7 @@ class _FilterFormState extends State<FilterForm> {
                   MaterialPageRoute(
                     builder: (context) => FilteredJobsScreen(
                         selectedBadgeTypes: _selectedBadgeTypes,
-                        selectedShiftPreferences: _selectedShiftPreferences,
+                        selectedJobType: _selectedJobType,
                         selectedCity: _selectedCity),
                   ),
                 );

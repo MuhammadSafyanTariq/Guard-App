@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -151,21 +153,7 @@ class _MyAppState extends State<MyApp> {
       return MainPage();
       // return FilterForm();
     } else {
-      return Scaffold(
-        body: Container(
-            child: Center(
-          child: Column(
-            children: [
-              Text('So network issue has occured'),
-              ElevatedButton(
-                  child: Text('Refresh'),
-                  onPressed: () {
-                    getData();
-                  }),
-            ],
-          ),
-        )),
-      );
+      return LoginScreen();
     }
   }
 }

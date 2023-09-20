@@ -92,10 +92,9 @@ class _FilteredEmployersScreenState extends State<FilteredEmployersScreen> {
                         .where('BadgeType',
                             arrayContainsAny: widget.selectedBadgeTypes)
                         .where(
-                          'Shift',
-                          isEqualTo: widget.selectedShiftPreferences,
-                        )
-                        .snapshots(),
+                        'Shift',
+                        whereIn: [widget.selectedShiftPreferences, 'Any'],
+                      ).snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                         snapshot) {

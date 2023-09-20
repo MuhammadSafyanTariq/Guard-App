@@ -6,12 +6,12 @@ import 'package:guard/users/Screens/LoginScreen.dart';
 class FilteredJobsScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
   final String selectedCity;
-  final String selectedShiftPreferences;
+  final String selectedJobType;
 
   FilteredJobsScreen({
     required this.selectedBadgeTypes,
     required this.selectedCity,
-    required this.selectedShiftPreferences,
+    required this.selectedJobType,
   });
   @override
   State<FilteredJobsScreen> createState() => _FilteredJobsScreenState();
@@ -75,7 +75,7 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
               ),
             ),
             child: StreamBuilder(
-                stream: widget.selectedShiftPreferences == 'Any'
+                stream: widget.selectedJobType == 'Any'
                     ? FirebaseFirestore.instance
                         .collection('job')
                         .where('city', isEqualTo: widget.selectedCity)
@@ -83,10 +83,12 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
                         .snapshots()
                     : FirebaseFirestore.instance
                         .collection('job')
-                        .where('city', isEqualTo: widget.selectedCity)
                         .where('jobBadge', whereIn: widget.selectedBadgeTypes)
-                        .where('shift',
-                            isEqualTo: widget.selectedShiftPreferences)
+                        .where('city', isEqualTo: widget.selectedCity)
+                        .where(
+                          'jobType',
+                          isEqualTo: widget.selectedJobType,
+                        )
                         .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
