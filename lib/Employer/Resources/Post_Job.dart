@@ -14,7 +14,6 @@ class JobMethods {
     required String title,
     required String description,
     required String email,
-    required String city,
     required String benefits, // Add the new fields here
     required String correspondingPerson,
     required String jobType,
@@ -25,13 +24,12 @@ class JobMethods {
     required String shift,
     required String venue,
     required String jobBadge,
+    required double longitude,
+    required double latitude,
   }) async {
     String res = "Some error Occurred";
     try {
-      if (title.isNotEmpty ||
-          email.isNotEmpty ||
-          description.isNotEmpty ||
-          city.isNotEmpty) {
+      if (title.isNotEmpty || email.isNotEmpty || description.isNotEmpty) {
         String jid = Uuid().v1();
 
         JobModel jobModel = JobModel(
@@ -40,17 +38,17 @@ class JobMethods {
           description: description,
           eid: _auth.currentUser!.uid,
           empContactEmail: email,
-          city: city,
           benefits: benefits, // Assign the new fields here
           correspondingPerson: correspondingPerson,
           jobType: jobType,
-          location: location,
           position: position,
           rate: rate,
           rateType: rateType,
           shift: shift,
           venue: venue,
           jobBadge: jobBadge,
+          longitude: longitude,
+          latitude: latitude,
         );
 
         // adding user in our database

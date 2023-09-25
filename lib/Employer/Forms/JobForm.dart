@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Resources/Post_Job.dart';
 import 'package:guard/users/Screens/JobDetails.dart';
 import 'package:guard/users/utils/utils.dart';
+import 'package:geocoding/geocoding.dart';
 
 class JobForm extends StatefulWidget {
   @override
@@ -95,12 +96,49 @@ class _JobFormState extends State<JobForm> {
   TextEditingController _positionController = TextEditingController();
   TextEditingController _rateController = TextEditingController();
   TextEditingController _venueController = TextEditingController();
+  TextEditingController _postalCodeController = TextEditingController();
   TextEditingController _correspondingPersonController =
       TextEditingController();
   TextEditingController _benefitsController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  late double latitude;
+  late double longitude;
+
+  Future<void> fetchLocationInfo(String postalCode) async {
+    try {
+      List<Location> locations = await locationFromAddress(postalCode);
+
+      if (locations.isNotEmpty) {
+        Location firstLocation = locations.first;
+        latitude = firstLocation.latitude;
+        longitude = firstLocation.longitude;
+
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          latitude,
+          longitude,
+        );
+
+        if (placemarks.isNotEmpty) {
+          Placemark firstPlacemark = placemarks.first;
+          _venueController.text = firstPlacemark.toString();
+
+          print("Latitude: $latitude");
+          print("Longitude: $longitude");
+          print("Complete Address: ${_venueController.text}");
+
+          // You can store these values in variables or use them as needed.
+        } else {
+          print("No placemark found for the coordinates.");
+        }
+      } else {
+        print("No location found for the postal code: $postalCode");
+      }
+    } catch (e) {
+      print("Error fetching location info: $e");
+    }
+  }
 
   void _navigateToAdDetailsPage() {
     Navigator.push(
@@ -132,21 +170,21 @@ class _JobFormState extends State<JobForm> {
     });
 
     res = await _jobMethods.postJob(
-      title: _titleController.text,
-      description: _descriptionController.text,
-      email: _emailController.text,
-      city: _selectedLocation,
-      benefits: _benefitsController.text,
-      correspondingPerson: _correspondingPersonController.text,
-      jobType: _selectedJobType ?? '',
-      location: _selectedLocation,
-      position: _positionController.text,
-      rate: _rateController.text,
-      rateType: _selectedRateType ?? '',
-      shift: _selectedShift ?? '',
-      venue: _venueController.text,
-      jobBadge: _selectedBadge,
-    );
+        title: _titleController.text,
+        description: _descriptionController.text,
+        email: _emailController.text,
+        benefits: _benefitsController.text,
+        correspondingPerson: _correspondingPersonController.text,
+        jobType: _selectedJobType ?? '',
+        location: _selectedLocation,
+        position: _positionController.text,
+        rate: _rateController.text,
+        rateType: _selectedRateType ?? '',
+        shift: _selectedShift ?? '',
+        venue: _venueController.text,
+        jobBadge: _selectedBadge,
+        latitude: latitude,
+        longitude: longitude);
 
     if (res != 'success') {
       showSnackBar(res, context);
@@ -160,6 +198,24 @@ class _JobFormState extends State<JobForm> {
 
     return res;
   }
+
+  // Future<Map<String, double>> getCoordinatesFromPostalCode(
+  //     String postalCode) async {
+  //   try {
+  //     List<Location> locations = await locationFromAddress(postalCode);
+  //     if (locations.isNotEmpty) {
+  //       final Map<String, double> coordinates = {
+  //         'latitude': locations[0].latitude,
+  //         'longitude': locations[0].longitude,
+  //       };
+  //       return coordinates;
+  //     } else {
+  //       throw Exception('Location not found for the given postal code');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Error fetching coordinates: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +250,7 @@ class _JobFormState extends State<JobForm> {
           child: Column(
             children: [
               Text(
-                'My Ad',
+                'MY JOB',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 30,
@@ -277,6 +333,11 @@ class _JobFormState extends State<JobForm> {
               ),
               SizedBox(height: 20),
               TextField(
+                controller: _postalCodeController,
+                decoration: InputDecoration(labelText: 'Postal Code'),
+              ),
+              SizedBox(height: 20),
+              TextField(
                 controller: _correspondingPersonController,
                 decoration: InputDecoration(labelText: 'Corresponding Person'),
               ),
@@ -331,14 +392,20 @@ class _JobFormState extends State<JobForm> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // postJob();
+                      // var c = await getCoordinatesFromPostalCode(
+                      //     _postalCodeController.text);
+                      fetchLocationInfo(_postalCodeController.text);
                       postJob();
+                      // print(
+                      //     '-----------------------------------------------------------$c');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
                     child: Text(
-                      '   Post   ',
+                      'Post',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

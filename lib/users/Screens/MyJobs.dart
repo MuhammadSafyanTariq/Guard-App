@@ -4,30 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class MatchedJobsScreen extends StatefulWidget {
+class SearchJobScreen extends StatefulWidget {
   @override
-  State<MatchedJobsScreen> createState() => _MatchedJobsScreenState();
+  State<SearchJobScreen> createState() => _SearchJobScreenState();
 }
 
-class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
-  List<dynamic> BadgeType = [''];
-  String city = '';
-
+class _SearchJobScreenState extends State<SearchJobScreen> {
   var userData = {};
+
   getData() async {
     try {
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
+      print(userSnap);
 
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
-        BadgeType = userData['BadgeType'];
-        city = userData['City'];
-        print('Badge type                                    $BadgeType');
-
-        print('city                          $city');
+        type = userData['type'];
       } else {
         print('Document does not exist');
       }
@@ -46,8 +41,7 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // getData();
-    print('type                     $city');
+    print(type);
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -97,8 +91,7 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('job')
-                    .where('city', isEqualTo: city)
-                    .where('jobBadge', whereIn: BadgeType)
+                    .where('')
                     .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
@@ -121,4 +114,8 @@ class _MatchedJobsScreenState extends State<MatchedJobsScreen> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(home: SearchJobScreen()));
 }

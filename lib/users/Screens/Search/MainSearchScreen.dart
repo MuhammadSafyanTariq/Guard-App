@@ -106,7 +106,7 @@ class MainSearchScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Show Similar Jobs'),
+                child: Text('Show Jobs that matches me'),
               ),
             ),
           ],

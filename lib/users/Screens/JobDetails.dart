@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guard/users/Screens/Profile.dart';
 
 class AdDetailsPage extends StatefulWidget {
   final String position;
@@ -41,18 +42,76 @@ class _AdDetailsPageState extends State<AdDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Position: ${widget.position}'),
-            Text('Location: ${widget.location}'),
-            Text('Shift: ${widget.shift}'),
-            Text('Rate: ${widget.rate} ${widget.rateType}'),
-            Text('Venue: ${widget.venue}'),
-            Text('Corresponding Person: ${widget.correspondingPerson}'),
-            Text('Job Type: ${widget.jobType}'),
-            Text('Benefits: ${widget.benefits}'),
-            Text('Description: ${widget.description}'),
+            SingleTextRow2(text1: 'Position', text2: widget.position),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Location', text2: widget.location),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Shift', text2: widget.shift),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Rate', text2: widget.rateType),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Venue', text2: widget.venue),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(
+                text1: 'Corresp...  Person', text2: widget.correspondingPerson),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Job Type', text2: widget.jobType),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Benefits', text2: widget.benefits),
+            SizedBox(
+              height: 10,
+            ),
+            SingleTextRow2(text1: 'Description', text2: widget.description),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SingleTextRow2 extends StatelessWidget {
+  final String text1;
+  final String text2;
+  const SingleTextRow2({super.key, required this.text1, required this.text2});
+
+  @override
+  Widget build(BuildContext context) {
+    double W = MediaQuery.of(context).size.width;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          '${text1}:', // Replace with user's name
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        SizedBox(
+          width: W / 2,
+          child: Row(
+            children: [
+              Text(
+                text2, // Replace with user's name
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

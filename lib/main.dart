@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -115,6 +113,7 @@ class _MyAppState extends State<MyApp> {
                   splashTransition: SplashTransition.slideTransition,
                   backgroundColor: Colors.black,
                   nextScreen: getUserTypeScreen(type),
+                  // nextScreen: EmployerForm(),
                 );
               } else if (snapshot.hasError) {
                 return const Center(
@@ -157,3 +156,71 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
+
+
+// import 'package:flutter/material.dart';
+// import 'package:geolib/geolib.dart';
+
+// class JobSearchForm extends StatefulWidget {
+//   @override
+//   _JobSearchFormState createState() => _JobSearchFormState();
+// }
+
+// class _JobSearchFormState extends State<JobSearchForm> {
+//   double _radius = 10;
+//   double _latitude = 0;
+//   double _longitude = 0;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _getCurrentLocation();
+//   }
+
+//   void _getCurrentLocation() async {
+//     Position position = await Geolocator.getCurrentPosition();
+//     _latitude = position.latitude;
+//     _longitude = position.longitude;
+//   }
+
+//   void _onSubmit() {
+//     // Filter the job listings based on the user's input.
+//     List<JobListing> jobListings = [
+//       // ...
+//     ];
+
+//     // Filter the job listings by radius.
+//     jobListings = jobListings.where((jobListing) {
+//       double distance = distanceBetween(_latitude, _longitude, jobListing.latitude, jobListing.longitude);
+//       return distance <= _radius;
+//     }).toList();
+
+//     // Display the filtered job listings to the user.
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       child: Column(
+//         children: [
+//           TextField(
+//             decoration: InputDecoration(
+//               labelText: 'Radius (km)',
+//             ),
+//             keyboardType: TextInputType.number,
+//             onChanged: (value) {
+//               setState(() {
+//                 _radius = double.parse(value);
+//               });
+//             },
+//           ),
+//           // ... other fields
+//           ElevatedButton(
+//             onPressed: _onSubmit,
+//             child: Text('Search'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

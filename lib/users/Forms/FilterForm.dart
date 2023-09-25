@@ -21,37 +21,7 @@ class _FilterFormState extends State<FilterForm> {
   List<String> _selectedDrivingLicense = [];
   String _selectedCity = 'Belfast';
   String _selectedJobType = 'Permanent';
-  List<String> cities = [
-    'Belfast',
-    'Birmingham',
-    'Bradford',
-    'Brighton and Hove',
-    'Bristol',
-    'Cambridge',
-    'Cardiff',
-    'Coventry',
-    'Derby',
-    'Edinburgh',
-    'Glasgow',
-    'Leeds',
-    'Leicester',
-    'Liverpool',
-    'London',
-    'Manchester',
-    'Newcastle upon Tyne',
-    'Nottingham',
-    'Oxford',
-    'Plymouth',
-    'Portsmouth',
-    'Sheffield',
-    'Southampton',
-    'Stoke-on-Trent',
-    'Sunderland',
-    'Swansea',
-    'Wakefield',
-    'Wolverhampton',
-    'York'
-  ];
+  final _radiusController = TextEditingController();
 
   Widget buildBadgeTypeCheckbox(String title) {
     return CheckboxListTile(
@@ -83,23 +53,6 @@ class _FilterFormState extends State<FilterForm> {
         DropdownMenuItem(value: 'Cover', child: Text('Cover')),
       ],
       decoration: InputDecoration(labelText: 'Select Shift'),
-    );
-  }
-
-  Widget buildCityDropdown() {
-    List<DropdownMenuItem<String>> items = cities.map((city) {
-      return DropdownMenuItem<String>(value: city, child: Text(city));
-    }).toList();
-
-    return DropdownButtonFormField<String>(
-      value: _selectedCity,
-      onChanged: (value) {
-        setState(() {
-          _selectedCity = value!;
-        });
-      },
-      items: items,
-      decoration: InputDecoration(labelText: 'Select City'),
     );
   }
 
@@ -146,7 +99,10 @@ class _FilterFormState extends State<FilterForm> {
                     builder: (context) => FilteredJobsScreen(
                         selectedBadgeTypes: _selectedBadgeTypes,
                         selectedJobType: _selectedJobType,
-                        selectedCity: _selectedCity),
+                        selectedCity: _selectedCity,
+                        radius: double.parse(
+                          _radiusController.text,
+                        )),
                   ),
                 );
               },
@@ -186,13 +142,20 @@ class _FilterFormState extends State<FilterForm> {
       //   isActive: true,
       // ),
       Step(
-        title: Text('City'),
-        content: Column(
-          children: [
-            buildCityDropdown(),
-          ],
+        title: Text('Radius'),
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: TextField(
+            obscureText: true,
+            controller: _radiusController,
+            decoration: InputDecoration(
+              labelText: 'Radius',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
         ),
-        isActive: true,
       ),
       Step(
         title: Text('Shift Preference'),
