@@ -103,4 +103,22 @@ class AuthMethods {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<String> resetPassword(String email) async {
+    String res = '';
+    try {
+      if (email.isNotEmpty) {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        res = 'success';
+      } else {
+        res = 'Enter Email';
+      }
+      print('Password reset email sent to $email');
+    } catch (e) {
+      res = e.toString();
+      print('Error sending password reset email: $e');
+      throw e; // You can handle the error as needed, e.g., show an error message to the user.
+    }
+    return res;
+  }
 }

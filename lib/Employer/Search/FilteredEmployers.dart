@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/Employer/Screen/SingleEmploye.dart';
-import 'package:guard/Employer/Screen/SingleJobCard.dart';
+import 'package:guard/Employer/Screen/Widgets/SingleEmploye.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
 class FilteredEmployesScreen extends StatefulWidget {

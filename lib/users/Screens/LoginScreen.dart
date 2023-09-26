@@ -72,6 +72,18 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  forgetPassword() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await _authMethods.resetPassword(_emailController.text);
+    if (res == "success") {
+      showSnackBar('Password reset sent at your email', context);
+    } else {
+      showSnackBar(res, context);
+    }
+  }
+
   void goTOSignUpScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -161,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  // Implement forgot password functionality
+                  forgetPassword();
                 },
                 child: Text(
                   'Forgot Password?',

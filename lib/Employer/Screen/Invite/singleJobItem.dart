@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:guard/Employer/Resources/Post_Job.dart';
 import 'package:guard/Employer/Screen/ApplicantsFilter.dart';
-import 'package:guard/Employer/Screen/SingleEmploye.dart';
+import 'package:guard/Employer/Screen/Widgets/SingleEmploye.dart';
 import 'package:guard/Employer/Search/AllEmployers.dart';
 import 'package:guard/admin/utils/GlobalVariables.dart';
 import 'package:guard/users/Screens/JobDetails.dart';

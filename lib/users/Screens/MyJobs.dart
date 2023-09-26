@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/Employer/Screen/SingleJobCard.dart';
+import 'package:guard/Employer/Screen/Widgets/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
 class SearchJobScreen extends StatefulWidget {
