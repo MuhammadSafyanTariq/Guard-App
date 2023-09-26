@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
+import 'package:guard/users/Screens/SingleJobCardEmploye.dart';
 
 class AllJobsScreen extends StatefulWidget {
   @override
@@ -104,7 +105,7 @@ class _AllJobsScreenState extends State<AllJobsScreen> {
                   }
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) => SingleJobCardEmployer(
+                    itemBuilder: (context, index) => SingleJobCardEmploye(
                       snap: snapshot.data!.docs[index].data(),
                     ),
                   );

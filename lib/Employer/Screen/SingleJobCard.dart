@@ -32,7 +32,6 @@ class SingleJobCardEmployer extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => AdDetailsPage(
                           position: snap['position'],
-                          location: snap['location'],
                           shift: snap['shift'],
                           rate: snap['rate'],
                           rateType: snap['rateType'],
@@ -40,7 +39,8 @@ class SingleJobCardEmployer extends StatelessWidget {
                           correspondingPerson: snap['correspondingPerson'],
                           jobType: snap['jobType'],
                           benefits: snap['benefits'],
-                          description: snap['empContactEmail'],
+                          description: snap['description'],
+                          email: snap['empContactEmail'],
                         ),
                       ),
                     );

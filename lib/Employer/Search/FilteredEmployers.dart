@@ -6,13 +6,13 @@ import 'package:guard/users/Screens/LoginScreen.dart';
 
 class FilteredEmployersScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
-  final String selectedCity;
   final String selectedShiftPreferences;
+  final String selectedDrivingLicense;
 
   FilteredEmployersScreen({
     required this.selectedBadgeTypes,
-    required this.selectedCity,
     required this.selectedShiftPreferences,
+    required this.selectedDrivingLicense,
   });
   @override
   State<FilteredEmployersScreen> createState() =>
@@ -81,14 +81,16 @@ class _FilteredEmployersScreenState extends State<FilteredEmployersScreen> {
                     ? FirebaseFirestore.instance
                         .collection('users')
                         .where('type', isEqualTo: 'Guard')
-                        .where('City', isEqualTo: widget.selectedCity)
+                        .where('DrivingLicence',
+                            isEqualTo: widget.selectedDrivingLicense)
                         .where('BadgeType',
                             arrayContainsAny: widget.selectedBadgeTypes)
                         .snapshots()
                     : FirebaseFirestore.instance
                         .collection('users')
                         .where('type', isEqualTo: 'Guard')
-                        .where('City', isEqualTo: widget.selectedCity)
+                        .where('DrivingLicence',
+                            isEqualTo: widget.selectedDrivingLicense)
                         .where('BadgeType',
                             arrayContainsAny: widget.selectedBadgeTypes)
                         .where(

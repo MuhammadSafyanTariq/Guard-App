@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guard/admin/utils/colors.dart';
 
 class SingleJobCardEmploye extends StatelessWidget {
   final snap;
@@ -14,9 +15,14 @@ class SingleJobCardEmploye extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              snap['title'],
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                snap['title'],
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(height: 5),
             Text(snap['description']),
@@ -24,24 +30,15 @@ class SingleJobCardEmploye extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle contact action here
-                  },
-                  child: Text('Contact'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle apply action here
-                  },
-                  child: Text('Apply'),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle contact action here
+                    },
+                    child: Text('Apply'),
+                  ),
                 ),
               ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              snap['empContactEmail'],
-              style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ],
         ),

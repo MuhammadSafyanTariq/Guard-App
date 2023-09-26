@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guard/users/Resource/Auth_Methods.dart';
-import 'package:guard/users/Screens/MainPage.dart';
+import 'package:guard/admin/utils/utils.dart';
 import 'package:guard/users/Screens/Search/FilteredJobs.dart';
-import 'package:guard/users/utils/utils.dart';
-import 'package:uuid/uuid.dart';
 
 class FilterForm extends StatefulWidget {
   @override
@@ -11,14 +8,10 @@ class FilterForm extends StatefulWidget {
 }
 
 class _FilterFormState extends State<FilterForm> {
-  bool _isLoading = false;
-  final AuthMethods _authMethods = AuthMethods();
-
   int _currentStep = 0;
 
   // For checkboxes and dropdown values
   List<String> _selectedBadgeTypes = [''];
-  List<String> _selectedDrivingLicense = [];
   String _selectedCity = 'Belfast';
   String _selectedJobType = 'Permanent';
   final _radiusController = TextEditingController();
@@ -39,7 +32,7 @@ class _FilterFormState extends State<FilterForm> {
     );
   }
 
-  Widget buildShiftDropdown() {
+  Widget buildJobTypeDropdown() {
     return DropdownButtonFormField<String>(
       value: _selectedJobType,
       onChanged: (value) {
@@ -52,8 +45,27 @@ class _FilterFormState extends State<FilterForm> {
         DropdownMenuItem(value: 'Part-time', child: Text('Part-time')),
         DropdownMenuItem(value: 'Cover', child: Text('Cover')),
       ],
-      decoration: InputDecoration(labelText: 'Select Shift'),
+      decoration: InputDecoration(labelText: 'Select Job Type'),
     );
+  }
+
+  filterJobs(BuildContext context) {
+    if (_radiusController.text.isNotEmpty && _selectedBadgeTypes.isNotEmpty) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FilteredJobsScreen(
+              selectedBadgeTypes: _selectedBadgeTypes,
+              selectedJobType: _selectedJobType,
+              selectedCity: _selectedCity,
+              radius: double.parse(
+                _radiusController.text,
+              ),
+            ),
+          ));
+    } else {
+      showSnackBar('Please enter all the feilds', context);
+    }
   }
 
   @override
@@ -94,17 +106,7 @@ class _FilterFormState extends State<FilterForm> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FilteredJobsScreen(
-                        selectedBadgeTypes: _selectedBadgeTypes,
-                        selectedJobType: _selectedJobType,
-                        selectedCity: _selectedCity,
-                        radius: double.parse(
-                          _radiusController.text,
-                        )),
-                  ),
-                );
+                filterJobs(context);
               },
               child: Text('Filter'),
             ),
@@ -117,7 +119,7 @@ class _FilterFormState extends State<FilterForm> {
   List<Step> _buildSteps() {
     return [
       Step(
-        title: Text('Licence Type'),
+        title: Text('Badge Type'),
         content: Column(
           children: [
             buildBadgeTypeCheckbox('Security Guard'),
@@ -128,25 +130,12 @@ class _FilterFormState extends State<FilterForm> {
         ),
         isActive: true,
       ),
-      // Step(
-      //   title: Text('Driving License'),
-      //   content: Column(
-      //     children: [
-      //       buildLicenceCheckbox('UK Full'),
-      //       buildLicenceCheckbox('UK Automatic'),
-      //       buildLicenceCheckbox('EU License'),
-      //       buildLicenceCheckbox('International License'),
-      //       buildLicenceCheckbox('No License'),
-      //     ],
-      //   ),
-      //   isActive: true,
-      // ),
       Step(
+        isActive: true,
         title: Text('Radius'),
         content: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: TextField(
-            obscureText: true,
             controller: _radiusController,
             decoration: InputDecoration(
               labelText: 'Radius',
@@ -158,8 +147,8 @@ class _FilterFormState extends State<FilterForm> {
         ),
       ),
       Step(
-        title: Text('Shift Preference'),
-        content: buildShiftDropdown(),
+        title: Text('Job Type'),
+        content: buildJobTypeDropdown(),
         isActive: true,
       ),
     ];

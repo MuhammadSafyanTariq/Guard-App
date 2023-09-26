@@ -12,47 +12,12 @@ class FilterForm extends StatefulWidget {
 }
 
 class _FilterFormState extends State<FilterForm> {
-  bool _isLoading = false;
-  final AuthMethods _authMethods = AuthMethods();
-
   int _currentStep = 0;
 
   // For checkboxes and dropdown values
   List<String> _selectedBadgeTypes = [''];
-  List<String> _selectedDrivingLicense = [];
-  String _selectedCity = 'Belfast';
   String _selectedShiftPreferences = 'Day';
-  List<String> cities = [
-    'Belfast',
-    'Birmingham',
-    'Bradford',
-    'Brighton and Hove',
-    'Bristol',
-    'Cambridge',
-    'Cardiff',
-    'Coventry',
-    'Derby',
-    'Edinburgh',
-    'Glasgow',
-    'Leeds',
-    'Leicester',
-    'Liverpool',
-    'London',
-    'Manchester',
-    'Newcastle upon Tyne',
-    'Nottingham',
-    'Oxford',
-    'Plymouth',
-    'Portsmouth',
-    'Sheffield',
-    'Southampton',
-    'Stoke-on-Trent',
-    'Sunderland',
-    'Swansea',
-    'Wakefield',
-    'Wolverhampton',
-    'York'
-  ];
+  String _selectedDrivingLicense = 'UK Full';
 
   Widget buildBadgeTypeCheckbox(String title) {
     return CheckboxListTile(
@@ -87,30 +52,13 @@ class _FilterFormState extends State<FilterForm> {
     );
   }
 
-  Widget buildCityDropdown() {
-    List<DropdownMenuItem<String>> items = cities.map((city) {
-      return DropdownMenuItem<String>(value: city, child: Text(city));
-    }).toList();
-
-    return DropdownButtonFormField<String>(
-      value: _selectedCity,
-      onChanged: (value) {
-        setState(() {
-          _selectedCity = value!;
-        });
-      },
-      items: items,
-      decoration: InputDecoration(labelText: 'Select City'),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          'Filter Employers',
+          'Filter Employes',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
@@ -140,18 +88,23 @@ class _FilterFormState extends State<FilterForm> {
                 }
               },
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FilteredEmployersScreen(
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FilteredEmployersScreen(
                         selectedBadgeTypes: _selectedBadgeTypes,
                         selectedShiftPreferences: _selectedShiftPreferences,
-                        selectedCity: _selectedCity),
-                  ),
-                );
-              },
-              child: Text('Filter'),
+                        selectedDrivingLicense: _selectedDrivingLicense,
+                      ),
+                    ),
+                  );
+                },
+                child: Text('Filter Employes'),
+              ),
             ),
           ],
         ),
@@ -159,10 +112,31 @@ class _FilterFormState extends State<FilterForm> {
     );
   }
 
+  Widget buildDrivingLicenseDropdown() {
+    return DropdownButtonFormField<String>(
+      value: _selectedDrivingLicense,
+      onChanged: (value) {
+        setState(() {
+          _selectedDrivingLicense = value!;
+        });
+      },
+      items: [
+        DropdownMenuItem(value: 'UK Full', child: Text('UK Full')),
+        DropdownMenuItem(value: 'UK Automatic', child: Text('UK Automatic')),
+        DropdownMenuItem(value: 'EU License', child: Text('EU License')),
+        DropdownMenuItem(
+            value: 'International License',
+            child: Text('International License')),
+        DropdownMenuItem(value: 'No License', child: Text('No License')),
+      ],
+      decoration: InputDecoration(labelText: 'Select Driving License'),
+    );
+  }
+
   List<Step> _buildSteps() {
     return [
       Step(
-        title: Text('Licence Type'),
+        title: Text('Badge Type'),
         content: Column(
           children: [
             buildBadgeTypeCheckbox('Security Guard'),
@@ -174,10 +148,10 @@ class _FilterFormState extends State<FilterForm> {
         isActive: true,
       ),
       Step(
-        title: Text('City'),
+        title: Text('Driving License'),
         content: Column(
           children: [
-            buildCityDropdown(),
+            buildDrivingLicenseDropdown(),
           ],
         ),
         isActive: true,

@@ -112,6 +112,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
+import 'package:guard/users/Screens/SingleJobCardEmploye.dart';
 
 class FilteredJobsScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
@@ -245,7 +246,7 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
                         jobLat >= minLat &&
                         jobLon <= maxLon &&
                         jobLon >= minLon) {
-                      return SingleJobCardEmployer(snap: jobData);
+                      return SingleJobCardEmploye(snap: jobData);
                     } else {
                       return SizedBox();
                     }

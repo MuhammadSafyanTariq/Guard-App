@@ -50,25 +50,25 @@ class SingleJEmployeCard extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            Text(
-              'Contact:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            SizedBox(height: 10),
-            Text(
-              snap['email'],
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              snap['phone'],
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            SizedBox(
-              height: 10,
-            ),
+            // Text(
+            //   'Contact:',
+            //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            // ),
+            // SizedBox(height: 10),
+            // Text(
+            //   snap['email'],
+            //   style: TextStyle(fontStyle: FontStyle.italic),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Text(
+            //   snap['phone'],
+            //   style: TextStyle(fontStyle: FontStyle.italic),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

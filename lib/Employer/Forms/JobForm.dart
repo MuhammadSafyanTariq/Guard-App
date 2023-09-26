@@ -5,104 +5,49 @@ import 'package:guard/users/utils/utils.dart';
 import 'package:geocoding/geocoding.dart';
 
 class JobForm extends StatefulWidget {
+  const JobForm({super.key});
+
   @override
   _JobFormState createState() => _JobFormState();
 }
 
 class _JobFormState extends State<JobForm> {
-  String _selectedLocation = 'Belfast'; // Set an initial value from the list
+  final String _selectedLocation =
+      'Belfast'; // Set an initial value from the list
   String _selectedShift = 'Day'; // Set an initial value from the list
   String _selectedRateType = 'Per Hour'; // Set an initial value from the list
   String _selectedJobType = 'Permanent'; // Set an initial value from the list
   String _selectedBadge = 'Security Guard';
 
-  List<String> _locations = [
-    'Belfast',
-    'Birmingham',
-    'Bradford',
-    'Brighton and Hove',
-    'Bristol',
-    'Cambridge',
-    'Cardiff',
-    'Coventry',
-    'Derby',
-    'Edinburgh',
-    'Glasgow',
-    'Leeds',
-    'Leicester',
-    'Liverpool',
-    'London',
-    'Manchester',
-    'Newcastle upon Tyne',
-    'Nottingham',
-    'Oxford',
-    'Plymouth',
-    'Portsmouth',
-    'Sheffield',
-    'Southampton',
-    'Stoke-on-Trent',
-    'Sunderland',
-    'Swansea',
-    'Wakefield',
-    'Wolverhampton',
-    'York'
-  ];
-
-  List<String> _jobBadges = [
+  final List<String> _jobBadges = [
     'Security Guard',
     'Door Supervisor',
     'CCTV',
     'Close Protection',
   ];
 
-  Widget buildCityDropdown() {
-    List<DropdownMenuItem<String>> items = _locations.map((city) {
-      return DropdownMenuItem<String>(value: city, child: Text(city));
-    }).toList();
+  final List<String> _shifts = [
+    'Day',
+    'Night',
+  ];
+  final List<String> _rateTypes = [
+    'Per Hour',
+    'Per Day',
+    'Per Shift',
+    'Per Month'
+  ];
+  final List<String> _jobTypes = ['Permanent', 'Part-time', 'Cover'];
 
-    return DropdownButtonFormField<String>(
-      value: _selectedLocation,
-      onChanged: (value) {
-        setState(() {
-          _selectedLocation = value!;
-        });
-      },
-      items: items,
-      decoration: InputDecoration(labelText: 'Select City'),
-    );
-  }
-
-  Widget buildBadgeDropdown() {
-    List<DropdownMenuItem<String>> items = _jobBadges.map((city) {
-      return DropdownMenuItem<String>(value: city, child: Text(city));
-    }).toList();
-
-    return DropdownButtonFormField<String>(
-      value: _selectedBadge,
-      onChanged: (value) {
-        setState(() {
-          _selectedBadge = value!;
-        });
-      },
-      items: items,
-      decoration: InputDecoration(labelText: 'Select Badge'),
-    );
-  }
-
-  List<String> _shifts = ['Day', 'Night', 'Any'];
-  List<String> _rateTypes = ['Per Hour', 'Per Day', 'Per Shift', 'Per Month'];
-  List<String> _jobTypes = ['Permanent', 'Part-time', 'Cover'];
-
-  TextEditingController _positionController = TextEditingController();
-  TextEditingController _rateController = TextEditingController();
-  TextEditingController _venueController = TextEditingController();
-  TextEditingController _postalCodeController = TextEditingController();
-  TextEditingController _correspondingPersonController =
+  final _positionController = TextEditingController();
+  final _rateController = TextEditingController();
+  final TextEditingController _venueController = TextEditingController();
+  final TextEditingController _postalCodeController = TextEditingController();
+  final TextEditingController _correspondingPersonController =
       TextEditingController();
-  TextEditingController _benefitsController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _benefitsController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   late double latitude;
   late double longitude;
 
@@ -120,18 +65,18 @@ class _JobFormState extends State<JobForm> {
           longitude,
         );
 
-        if (placemarks.isNotEmpty) {
-          Placemark firstPlacemark = placemarks.first;
-          _venueController.text = firstPlacemark.toString();
+        // if (placemarks.isNotEmpty) {
+        //   Placemark firstPlacemark = placemarks.first;
+        //   _venueController.text = firstPlacemark.toString();
 
-          print("Latitude: $latitude");
-          print("Longitude: $longitude");
-          print("Complete Address: ${_venueController.text}");
+        //   print("Latitude: $latitude");
+        //   print("Longitude: $longitude");
+        //   print("Complete Address: ${_venueController.text}");
 
-          // You can store these values in variables or use them as needed.
-        } else {
-          print("No placemark found for the coordinates.");
-        }
+        //   // You can store these values in variables or use them as needed.
+        // } else {
+        //   print("No placemark found for the coordinates.");
+        // }
       } else {
         print("No location found for the postal code: $postalCode");
       }
@@ -140,13 +85,29 @@ class _JobFormState extends State<JobForm> {
     }
   }
 
+  Widget buildBadgeDropdown() {
+    List<DropdownMenuItem<String>> items = _jobBadges.map((city) {
+      return DropdownMenuItem<String>(value: city, child: Text(city));
+    }).toList();
+
+    return DropdownButtonFormField<String>(
+      value: _selectedBadge,
+      onChanged: (value) {
+        setState(() {
+          _selectedBadge = value!;
+        });
+      },
+      items: items,
+      decoration: const InputDecoration(labelText: 'Select Badge'),
+    );
+  }
+
   void _navigateToAdDetailsPage() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AdDetailsPage(
           position: _positionController.text,
-          location: _selectedLocation,
           shift: _selectedShift,
           rate: _rateController.text,
           rateType: _selectedRateType,
@@ -155,6 +116,7 @@ class _JobFormState extends State<JobForm> {
           jobType: _selectedJobType,
           benefits: _benefitsController.text,
           description: _descriptionController.text,
+          email: _emailController.text,
         ),
       ),
     );
@@ -199,24 +161,6 @@ class _JobFormState extends State<JobForm> {
     return res;
   }
 
-  // Future<Map<String, double>> getCoordinatesFromPostalCode(
-  //     String postalCode) async {
-  //   try {
-  //     List<Location> locations = await locationFromAddress(postalCode);
-  //     if (locations.isNotEmpty) {
-  //       final Map<String, double> coordinates = {
-  //         'latitude': locations[0].latitude,
-  //         'longitude': locations[0].longitude,
-  //       };
-  //       return coordinates;
-  //     } else {
-  //       throw Exception('Location not found for the given postal code');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error fetching coordinates: $e');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
@@ -224,7 +168,7 @@ class _JobFormState extends State<JobForm> {
     return Scaffold(
       backgroundColor: Colors.grey[600],
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(
@@ -232,10 +176,10 @@ class _JobFormState extends State<JobForm> {
             width: 2,
             style: BorderStyle.solid,
           ),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
@@ -246,10 +190,10 @@ class _JobFormState extends State<JobForm> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'MY JOB',
                 style: TextStyle(
                   color: Colors.black,
@@ -260,7 +204,7 @@ class _JobFormState extends State<JobForm> {
               SizedBox(height: H * 0.03),
               TextField(
                 controller: _titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Job title',
                   labelStyle:
                       TextStyle(color: Colors.black), // Change label color
@@ -268,17 +212,15 @@ class _JobFormState extends State<JobForm> {
               ),
               TextField(
                 controller: _positionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Position',
                   labelStyle:
                       TextStyle(color: Colors.black), // Change label color
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildBadgeDropdown(),
-              SizedBox(height: 20),
-              buildCityDropdown(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedShift,
                 onChanged: (value) {
@@ -292,9 +234,9 @@ class _JobFormState extends State<JobForm> {
                     child: Text(shift),
                   );
                 }).toList(),
-                decoration: InputDecoration(labelText: 'Shift'),
+                decoration: const InputDecoration(labelText: 'Shift'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -302,10 +244,10 @@ class _JobFormState extends State<JobForm> {
                     child: TextField(
                       controller: _rateController,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(labelText: 'Rate'),
+                      decoration: const InputDecoration(labelText: 'Rate'),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Expanded(
                     flex: 3,
                     child: DropdownButtonFormField<String>(
@@ -321,27 +263,28 @@ class _JobFormState extends State<JobForm> {
                           child: Text(rateType),
                         );
                       }).toList(),
-                      decoration: InputDecoration(labelText: 'Rate Type'),
+                      decoration: const InputDecoration(labelText: 'Rate Type'),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _venueController,
-                decoration: InputDecoration(labelText: 'Venue'),
+                decoration: const InputDecoration(labelText: 'Venue'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _postalCodeController,
-                decoration: InputDecoration(labelText: 'Postal Code'),
+                decoration: const InputDecoration(labelText: 'Postal Code'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _correspondingPersonController,
-                decoration: InputDecoration(labelText: 'Corresponding Person'),
+                decoration:
+                    const InputDecoration(labelText: 'Corresponding Person'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedJobType,
                 onChanged: (value) {
@@ -355,25 +298,25 @@ class _JobFormState extends State<JobForm> {
                     child: Text(jobType),
                   );
                 }).toList(),
-                decoration: InputDecoration(labelText: 'Job Type'),
+                decoration: const InputDecoration(labelText: 'Job Type'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _benefitsController,
-                decoration: InputDecoration(labelText: 'Benefits'),
+                decoration: const InputDecoration(labelText: 'Benefits'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
               ),
-              SizedBox(height: 20),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Contact Email'),
+                decoration: const InputDecoration(labelText: 'Contact Email'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -382,7 +325,7 @@ class _JobFormState extends State<JobForm> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
                         fontSize: 24,
@@ -393,18 +336,13 @@ class _JobFormState extends State<JobForm> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      // postJob();
-                      // var c = await getCoordinatesFromPostalCode(
-                      //     _postalCodeController.text);
                       fetchLocationInfo(_postalCodeController.text);
                       postJob();
-                      // print(
-                      //     '-----------------------------------------------------------$c');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Post',
                       style: TextStyle(
                         fontSize: 24,
