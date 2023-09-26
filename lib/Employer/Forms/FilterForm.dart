@@ -95,7 +95,7 @@ class _FilterFormState extends State<FilterForm> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => FilteredEmployersScreen(
+                      builder: (context) => FilteredEmployesScreen(
                         selectedBadgeTypes: _selectedBadgeTypes,
                         selectedShiftPreferences: _selectedShiftPreferences,
                         selectedDrivingLicense: _selectedDrivingLicense,

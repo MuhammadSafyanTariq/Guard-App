@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
+import 'package:guard/users/Screens/MyInvitations.dart/Filter.dart';
 import 'package:guard/users/Screens/Search/MainSearchScreen.dart';
-import 'Invite.dart';
 import '../../Employer/Screen/EmployeJob.dart';
-import 'Search/AllJobs.dart';
 import 'Profile.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,8 +15,7 @@ class _MainPageState extends State<MainPage> {
   List<Widget> _pages = [
     Profile(),
     MainSearchScreen(),
-    EmployeeJobs(),
-    Invite(),
+    InvitaionFilter(),
   ];
 
   @override
@@ -47,10 +45,6 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.work),
               label: 'My Jobs',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chat',
             ),
           ],
         ),

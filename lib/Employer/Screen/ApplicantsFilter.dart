@@ -1,29 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Screen/SingleApplicant.dart';
 import 'package:guard/Employer/Screen/SingleEmploye.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class AllEmployesScreen extends StatefulWidget {
+class ApplicantsFilterScreen extends StatefulWidget {
+  final String jid;
+
+  ApplicantsFilterScreen({super.key, required this.jid});
   @override
-  State<AllEmployesScreen> createState() => _AllEmployesScreenState();
+  State<ApplicantsFilterScreen> createState() => _ApplicantsFilterScreenState();
 }
 
-class _AllEmployesScreenState extends State<AllEmployesScreen> {
+class _ApplicantsFilterScreenState extends State<ApplicantsFilterScreen> {
   var userData = {};
+  List<dynamic> candidates = [];
 
   getData() async {
     try {
       var userSnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('job')
+          .doc(widget.jid)
           .get();
-      print(userSnap);
 
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
-        type = userData['type'];
+        candidates = userData['candidates'];
+        //I am getting correct user type here
+        print('User type: $candidates');
       } else {
         print('Document does not exist');
       }
@@ -42,12 +47,13 @@ class _AllEmployesScreenState extends State<AllEmployesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(type);
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Employes"),
+          title: Text("Applicants for this job"),
           backgroundColor: Colors.black,
         ),
         body: Center(
@@ -88,27 +94,30 @@ class _AllEmployesScreenState extends State<AllEmployesScreen> {
                 ],
               ),
             ),
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('users')
-                    .where('type', isEqualTo: 'Guard')
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (ConnectionState == ConnectionState.waiting ||
-                      snapshot.data == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) => SingleJEmployeCard(
-                      snap: snapshot.data!.docs[index].data(),
-                    ),
-                  );
-                }),
+            child: candidates.isNotEmpty
+                ? StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .where('type', isEqualTo: 'Guard')
+                        .where('uid', whereIn: candidates)
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (ConnectionState == ConnectionState.waiting ||
+                          snapshot.data == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) => SingleApplicantCard(
+                          snap: snapshot.data!.docs[index].data(),
+                        ),
+                      );
+                    })
+                : SizedBox(),
           ),
         ),
       ),

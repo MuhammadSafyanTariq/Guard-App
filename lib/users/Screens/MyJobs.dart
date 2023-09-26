@@ -89,10 +89,8 @@ class _SearchJobScreenState extends State<SearchJobScreen> {
               ),
             ),
             child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('job')
-                    .where('')
-                    .snapshots(),
+                stream:
+                    FirebaseFirestore.instance.collection('job').snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                         snapshot) {

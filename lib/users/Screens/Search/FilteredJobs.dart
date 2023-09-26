@@ -116,13 +116,13 @@ import 'package:guard/users/Screens/SingleJobCardEmploye.dart';
 
 class FilteredJobsScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
-  final String selectedCity;
+  final String shift;
   final String selectedJobType;
   final double radius;
 
   FilteredJobsScreen({
     required this.selectedBadgeTypes,
-    required this.selectedCity,
+    required this.shift,
     required this.selectedJobType,
     required this.radius,
   });
@@ -208,11 +208,18 @@ class _FilteredJobsScreenState extends State<FilteredJobsScreen> {
               ),
             ),
             child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('job')
-                  .where('jobBadge', whereIn: widget.selectedBadgeTypes)
-                  .where('jobType', isEqualTo: widget.selectedJobType)
-                  .snapshots(),
+              stream: widget.shift == 'Any'
+                  ? FirebaseFirestore.instance
+                      .collection('job')
+                      .where('jobBadge', whereIn: widget.selectedBadgeTypes)
+                      .where('jobType', isEqualTo: widget.selectedJobType)
+                      .snapshots()
+                  : FirebaseFirestore.instance
+                      .collection('job')
+                      .where('jobBadge', whereIn: widget.selectedBadgeTypes)
+                      .where('jobType', isEqualTo: widget.selectedJobType)
+                      .where('shift', isEqualTo: widget.shift)
+                      .snapshots(),
               builder: (context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 // ignore: unrelated_type_equality_checks

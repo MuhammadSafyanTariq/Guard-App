@@ -14,6 +14,7 @@ class _FilterFormState extends State<FilterForm> {
   List<String> _selectedBadgeTypes = [''];
   String _selectedCity = 'Belfast';
   String _selectedJobType = 'Permanent';
+  String _selectedShiftType = 'Day';
   final _radiusController = TextEditingController();
 
   Widget buildBadgeTypeCheckbox(String title) {
@@ -49,6 +50,23 @@ class _FilterFormState extends State<FilterForm> {
     );
   }
 
+  Widget buildShiftTypeDropdown() {
+    return DropdownButtonFormField<String>(
+      value: _selectedShiftType,
+      onChanged: (value) {
+        setState(() {
+          _selectedShiftType = value!;
+        });
+      },
+      items: [
+        DropdownMenuItem(value: 'Day', child: Text('Day')),
+        DropdownMenuItem(value: 'Night', child: Text('Night')),
+        DropdownMenuItem(value: 'Any', child: Text('Any')),
+      ],
+      decoration: InputDecoration(labelText: 'Select Shift'),
+    );
+  }
+
   filterJobs(BuildContext context) {
     if (_radiusController.text.isNotEmpty && _selectedBadgeTypes.isNotEmpty) {
       Navigator.push(
@@ -57,7 +75,7 @@ class _FilterFormState extends State<FilterForm> {
             builder: (context) => FilteredJobsScreen(
               selectedBadgeTypes: _selectedBadgeTypes,
               selectedJobType: _selectedJobType,
-              selectedCity: _selectedCity,
+              shift: _selectedShiftType,
               radius: double.parse(
                 _radiusController.text,
               ),
@@ -149,6 +167,11 @@ class _FilterFormState extends State<FilterForm> {
       Step(
         title: Text('Job Type'),
         content: buildJobTypeDropdown(),
+        isActive: true,
+      ),
+      Step(
+        title: Text('Shift Preference'),
+        content: buildShiftTypeDropdown(),
         isActive: true,
       ),
     ];

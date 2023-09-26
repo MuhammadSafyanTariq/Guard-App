@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Screen/EmployeJob.dart';
+import 'package:guard/Employer/Screen/Invite/MyJobList.dart';
+import 'package:guard/admin/utils/GlobalVariables.dart';
 
 class SingleJEmployeCard extends StatelessWidget {
   final snap;
@@ -6,6 +11,8 @@ class SingleJEmployeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double H = MediaQuery.of(context).size.height;
+
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       elevation: 3,
@@ -72,8 +79,19 @@ class SingleJEmployeCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Handle contact action here
+                onPressed: () async {
+                  userIdForInvitation =
+                      snap['uid']; // Replace with the actual document ID
+
+                  showDialog(
+                    context: context,
+                    builder: (context) => SizedBox(
+                      height: H / 50,
+                      child: AlertDialog(
+                        content: SizedBox(height: H / 3, child: MyJobsList()),
+                      ),
+                    ),
+                  );
                 },
                 child: Text('Invite'),
               ),
@@ -82,6 +100,24 @@ class SingleJEmployeCard extends StatelessWidget {
         ),
       ),
     );
-    ;
+  }
+}
+
+Future<void> inviteToJob(String docId, String candidateId) async {
+  try {
+    // Reference the Firestore collection and document
+    final CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+    final DocumentReference docRef = usersCollection.doc(docId);
+
+    // Update the candidates list using FieldValue.arrayUnion
+    await docRef.update({
+      'invitations': FieldValue.arrayUnion([candidateId]),
+    });
+
+    print('Candidate invited successfully to job $docId');
+  } catch (e) {
+    print('Error adding candidate to job: $e');
+    throw e;
   }
 }

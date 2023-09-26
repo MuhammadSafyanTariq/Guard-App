@@ -4,22 +4,21 @@ import 'package:guard/Employer/Screen/SingleEmploye.dart';
 import 'package:guard/Employer/Screen/SingleJobCard.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 
-class FilteredEmployersScreen extends StatefulWidget {
+class FilteredEmployesScreen extends StatefulWidget {
   final List<String> selectedBadgeTypes;
   final String selectedShiftPreferences;
   final String selectedDrivingLicense;
 
-  FilteredEmployersScreen({
+  FilteredEmployesScreen({
     required this.selectedBadgeTypes,
     required this.selectedShiftPreferences,
     required this.selectedDrivingLicense,
   });
   @override
-  State<FilteredEmployersScreen> createState() =>
-      _FilteredEmployersScreenState();
+  State<FilteredEmployesScreen> createState() => _FilteredEmployesScreenState();
 }
 
-class _FilteredEmployersScreenState extends State<FilteredEmployersScreen> {
+class _FilteredEmployesScreenState extends State<FilteredEmployesScreen> {
   var userData = {};
 
   @override

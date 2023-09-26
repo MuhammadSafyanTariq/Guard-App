@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Resources/Post_Job.dart';
+import 'package:guard/Employer/Screen/ApplicantsFilter.dart';
+import 'package:guard/Employer/Search/AllEmployers.dart';
 import 'package:guard/users/Screens/JobDetails.dart';
 
 class SingleJobCardEmployer extends StatelessWidget {
@@ -8,6 +10,9 @@ class SingleJobCardEmployer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double W = MediaQuery.of(context).size.width;
+    double H = MediaQuery.of(context).size.height;
+
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       elevation: 3,
@@ -26,34 +31,58 @@ class SingleJobCardEmployer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AdDetailsPage(
-                          position: snap['position'],
-                          shift: snap['shift'],
-                          rate: snap['rate'],
-                          rateType: snap['rateType'],
-                          venue: snap['venue'],
-                          correspondingPerson: snap['correspondingPerson'],
-                          jobType: snap['jobType'],
-                          benefits: snap['benefits'],
-                          description: snap['description'],
-                          email: snap['empContactEmail'],
+                Expanded(
+                  // width: W / 2.9,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => AdDetailsPage(
+                            position: snap['position'],
+                            shift: snap['shift'],
+                            rate: snap['rate'],
+                            rateType: snap['rateType'],
+                            venue: snap['venue'],
+                            correspondingPerson: snap['correspondingPerson'],
+                            jobType: snap['jobType'],
+                            benefits: snap['benefits'],
+                            description: snap['description'],
+                            email: snap['empContactEmail'],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  child: Text('See Details'),
+                      );
+                    },
+                    child: Text('See Details'),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    JobMethods().deleteJob(snap['jid']);
-                  },
-                  child: Text('Delete'),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  // width: W / 2.9,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ApplicantsFilterScreen(jid: snap['jid']),
+                          ));
+                    },
+                    child: Text('View Applicants'),
+                  ),
                 ),
               ],
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: () {
+                  JobMethods().deleteJob(snap['jid']);
+                },
+                child: Text('Delete Job'),
+              ),
             ),
             SizedBox(height: 10),
             Text(
