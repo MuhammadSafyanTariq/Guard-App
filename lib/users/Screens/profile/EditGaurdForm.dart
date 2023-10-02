@@ -4,24 +4,22 @@ import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
-class GuardForm extends StatefulWidget {
+class EditGuardForm extends StatefulWidget {
   @override
-  _GuardFormState createState() => _GuardFormState();
+  _EditGuardFormState createState() => _EditGuardFormState();
 }
 
-class _GuardFormState extends State<GuardForm> {
+class _EditGuardFormState extends State<EditGuardForm> {
   bool _isLoading = false;
   final AuthMethods _authMethods = AuthMethods();
 
-  Future<String> SignUpUser() async {
+  Future<String> editGuard() async {
     String res = '';
     setState(() {
       _isLoading = true;
     });
-    res = await _authMethods.signUpUser(
+    res = await _authMethods.editGuard(
       FullName: _fullName!,
-      email: _email!,
-      password: _passwordController.text,
       phone: _phoneNumber!,
       BadgeType: _selectedBadgeTypes,
       DrivingLicence: _selectedDrivingLicense!,
@@ -51,9 +49,7 @@ class _GuardFormState extends State<GuardForm> {
   String? address;
   String _selectedShiftPreferences = 'Day';
   String? _fullName;
-  String? _email;
   String? _phoneNumber;
-  final _passwordController = TextEditingController();
   List<String> cities = [
     'Belfast',
     'Birmingham',
@@ -240,7 +236,7 @@ class _GuardFormState extends State<GuardForm> {
                         _currentStep++;
                       });
                     } else {
-                      SignUpUser();
+                      editGuard();
                     }
                   },
                   onStepCancel: () {
@@ -282,33 +278,11 @@ class _GuardFormState extends State<GuardForm> {
             TextField(
               onChanged: (value) {
                 setState(() {
-                  _email = value;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: TextStyle(color: Colors.black),
-              ),
-            ),
-            TextField(
-              onChanged: (value) {
-                setState(() {
                   _phoneNumber = value;
                 });
               },
               decoration: InputDecoration(
                 labelText: 'Phone Number',
-                labelStyle: TextStyle(color: Colors.black),
-              ),
-            ),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  _passwordController.text = value;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Password',
                 labelStyle: TextStyle(color: Colors.black),
               ),
             ),

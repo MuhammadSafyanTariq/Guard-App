@@ -48,6 +48,7 @@ class _JobFormState extends State<JobForm> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   late double latitude;
   late double longitude;
 
@@ -117,6 +118,7 @@ class _JobFormState extends State<JobForm> {
           benefits: _benefitsController.text,
           description: _descriptionController.text,
           email: _emailController.text,
+          address: _addressController.text,
         ),
       ),
     );
@@ -146,7 +148,8 @@ class _JobFormState extends State<JobForm> {
         venue: _venueController.text,
         jobBadge: _selectedBadge,
         latitude: latitude,
-        longitude: longitude);
+        longitude: longitude,
+        address: _addressController.text);
 
     if (res != 'success') {
       showSnackBar(res, context);
@@ -272,6 +275,13 @@ class _JobFormState extends State<JobForm> {
               TextField(
                 controller: _venueController,
                 decoration: const InputDecoration(labelText: 'Venue'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: _addressController,
+                decoration: const InputDecoration(labelText: 'Address'),
               ),
               const SizedBox(height: 20),
               TextField(

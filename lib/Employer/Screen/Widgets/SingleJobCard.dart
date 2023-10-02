@@ -7,6 +7,37 @@ import 'package:guard/users/Screens/JobDetails.dart';
 class SingleJobCardEmployer extends StatelessWidget {
   final snap;
   const SingleJobCardEmployer({super.key, this.snap});
+  void _showJobDetails(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: AdDetailsPage(
+                  position: snap['position'],
+                  shift: snap['shift'],
+                  rate: snap['rate'],
+                  rateType: snap['rateType'],
+                  venue: snap['venue'],
+                  correspondingPerson: snap['correspondingPerson'],
+                  jobType: snap['jobType'],
+                  benefits: snap['benefits'],
+                  description: snap['description'],
+                  email: snap['empContactEmail'],
+                  address: snap['address'],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +65,10 @@ class SingleJobCardEmployer extends StatelessWidget {
                 Expanded(
                   // width: W / 2.9,
                   child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AdDetailsPage(
-                            position: snap['position'],
-                            shift: snap['shift'],
-                            rate: snap['rate'],
-                            rateType: snap['rateType'],
-                            venue: snap['venue'],
-                            correspondingPerson: snap['correspondingPerson'],
-                            jobType: snap['jobType'],
-                            benefits: snap['benefits'],
-                            description: snap['description'],
-                            email: snap['empContactEmail'],
-                          ),
-                        ),
-                      );
+                      _showJobDetails(context);
                     },
                     child: Text('See Details'),
                   ),
@@ -61,6 +79,8 @@ class SingleJobCardEmployer extends StatelessWidget {
                 Expanded(
                   // width: W / 2.9,
                   child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     onPressed: () {
                       Navigator.push(
                           context,

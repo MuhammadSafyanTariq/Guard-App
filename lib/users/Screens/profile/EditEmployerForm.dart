@@ -3,12 +3,12 @@ import 'package:guard/Employer/Screen/MainPage2.dart';
 import 'package:guard/admin/Resource/Auth_Methods.dart';
 import 'package:guard/users/utils/utils.dart';
 
-class EmployerForm extends StatefulWidget {
+class EditEmployerForm extends StatefulWidget {
   @override
-  _EmployerFormState createState() => _EmployerFormState();
+  _EditEmployerFormState createState() => _EditEmployerFormState();
 }
 
-class _EmployerFormState extends State<EmployerForm> {
+class _EditEmployerFormState extends State<EditEmployerForm> {
   int _currentStep = 0;
 
   final TextEditingController _companyNameController = TextEditingController();
@@ -21,18 +21,17 @@ class _EmployerFormState extends State<EmployerForm> {
   bool _isLoading = false;
   final AuthMethods _authMethods = AuthMethods();
 
-  Future<String> SignUpUser() async {
+  Future<String> editProfile() async {
     String res = '';
     setState(() {
       _isLoading = true;
     });
-    res = await _authMethods.signUpUser(
-        companyName: _companyNameController.text,
-        address: _addressController.text,
-        phone: _phoneController.text,
-        email: _emailController.text,
-        correspondingPerson: _corresPersonController.text,
-        password: _passwordController.text);
+    res = await _authMethods.editProfile(
+      companyName: _companyNameController.text,
+      address: _addressController.text,
+      phone: _phoneController.text,
+      correspondingPerson: _corresPersonController.text,
+    );
     setState(() {
       _isLoading = false;
     });
@@ -74,23 +73,6 @@ class _EmployerFormState extends State<EmployerForm> {
               controller: _corresPersonController,
               decoration:
                   InputDecoration(labelText: 'Corresponding Person Name'),
-            ),
-          ],
-        ),
-        isActive: true,
-      ),
-      Step(
-        title: Text('Your Information'),
-        content: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
             ),
           ],
         ),
@@ -181,7 +163,7 @@ class _EmployerFormState extends State<EmployerForm> {
                                 _currentStep++;
                               });
                             } else {
-                              SignUpUser();
+                              editProfile();
                             }
                           },
                           onStepCancel: () {

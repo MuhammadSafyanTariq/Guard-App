@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/PostJobs.dart';
 import 'package:guard/Employer/Search/MainSearchScreen.dart';
-import '../../users/Screens/Invite.dart';
+import '../../users/Screens/MyInvitations.dart/Invite.dart';
 import 'EmployeJob.dart';
-import '../../users/Screens/Profile.dart';
+import '../../users/Screens/profile/Profile.dart';
 
 class MainPage2 extends StatefulWidget {
   @override
@@ -45,8 +45,8 @@ class _MainPage2State extends State<MainPage2> {
               label: 'My Ads',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Invite',
+              icon: Icon(Icons.search_outlined),
+              label: 'Search',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

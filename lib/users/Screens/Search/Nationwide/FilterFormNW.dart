@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:guard/admin/utils/utils.dart';
 import 'package:guard/users/Screens/Search/FilteredJobs.dart';
+import 'package:guard/users/Screens/Search/Nationwide/FilteredJobsNW.dart';
 
-class FilterFormJobs extends StatefulWidget {
+class FilterFormJobsNW extends StatefulWidget {
   @override
-  _FilterFormJobsState createState() => _FilterFormJobsState();
+  _FilterFormJobsNWState createState() => _FilterFormJobsNWState();
 }
 
-class _FilterFormJobsState extends State<FilterFormJobs> {
+class _FilterFormJobsNWState extends State<FilterFormJobsNW> {
   int _currentStep = 0;
 
   // For checkboxes and dropdown values
@@ -72,13 +73,10 @@ class _FilterFormJobsState extends State<FilterFormJobs> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FilteredJobsScreen(
+            builder: (context) => FilterNationWideScreen(
               selectedBadgeTypes: _selectedBadgeTypes,
               selectedJobType: _selectedJobType,
               shift: _selectedShiftType,
-              radius: double.parse(
-                _radius.toString(),
-              ),
             ),
           ));
     } else {
@@ -166,6 +164,12 @@ class _FilterFormJobsState extends State<FilterFormJobs> {
                     }
                   },
                 ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     filterJobs(context);
+                //   },
+                //   child: Text('Filter'),
+                // ),
               ],
             ),
           ),
@@ -190,33 +194,6 @@ class _FilterFormJobsState extends State<FilterFormJobs> {
           ],
         ),
         isActive: true,
-      ),
-      Step(
-        isActive: true,
-        title: Text('Radius'),
-        content: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Radius: $_radius'),
-              Slider(
-                value: _radius.toDouble(),
-                thumbColor: Colors.black,
-                activeColor: Colors.white,
-                inactiveColor: Colors.black,
-                min: 10,
-                max: 100,
-                divisions:
-                    ((100 - 10) / 5).toInt(), // Number of divisions (steps)
-                onChanged: (double value) {
-                  setState(() {
-                    _radius = value.round();
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
       ),
       Step(
         title: Text('Job Type'),

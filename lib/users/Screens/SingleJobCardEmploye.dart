@@ -26,36 +26,73 @@ class SingleJobCardEmploye extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 15),
             Text(snap['description']),
             SizedBox(height: 10),
+            Text(snap['benefits']),
+            SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      String docId =
-                          snap['jid']; // Replace with the actual document ID
-                      String candidateId = FirebaseAuth.instance.currentUser!
-                          .uid; // Replace with the candidate ID
-
-                      try {
-                        await addCandidateToJob(docId, candidateId);
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: Text('Applied Successfuly'),
-                          ),
-                        );
-                      } catch (e) {
-                        // Handle any errors here
-                      }
-                    },
-                    child: Text('Apply'),
-                  ),
+                Text(snap['rate']),
+                SizedBox(
+                  width: 5,
                 ),
+                Text(snap['rateType']),
               ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text('Shift:'),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(snap['shift']),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text('Job Badge:'),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(snap['jobBadge']),
+              ],
+            ),
+            SizedBox(height: 15),
+            Center(
+              child: SizedBox(
+                width: 120,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    String docId =
+                        snap['jid']; // Replace with the actual document ID
+                    String candidateId = FirebaseAuth.instance.currentUser!
+                        .uid; // Replace with the candidate ID
+
+                    try {
+                      await addCandidateToJob(docId, candidateId);
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: Text('Applied Successfuly'),
+                        ),
+                      );
+                    } catch (e) {
+                      // Handle any errors here
+                    }
+                  },
+                  child: Text('Apply'),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      )),
+                ),
+              ),
             ),
           ],
         ),

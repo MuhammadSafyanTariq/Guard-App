@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:guard/Employer/Forms/FilterForm.dart';
+import 'package:guard/users/Forms/FilterForm.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
+import 'package:guard/users/Screens/Search/FilteredJobs.dart';
+import 'package:guard/users/Screens/Search/Nationwide/FilterFormNW.dart';
 import 'package:guard/users/Screens/SingleJobCardEmploye.dart';
 
 class AllJobsScreen extends StatefulWidget {
@@ -11,6 +16,45 @@ class AllJobsScreen extends StatefulWidget {
 
 class _AllJobsScreenState extends State<AllJobsScreen> {
   var userData = {};
+  void showFilterFom(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: FilterFormJobs(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void showFilterFomNW(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: FilterFormJobsNW(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   getData() async {
     try {
@@ -47,7 +91,34 @@ class _AllJobsScreenState extends State<AllJobsScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Search JOBS"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Find JOBS"),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showFilterFomNW(context);
+                    },
+                    child: Text(
+                      'Filter Nationwide',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showFilterFom(context);
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.sliders,
+                      size: 22,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           backgroundColor: Colors.black,
         ),
         body: Center(

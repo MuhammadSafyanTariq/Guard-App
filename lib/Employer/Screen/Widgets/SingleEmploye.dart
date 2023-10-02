@@ -79,6 +79,10 @@ class SingleJEmployeCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  textStyle: TextStyle(fontSize: 18),
+                ),
                 onPressed: () async {
                   userIdForInvitation =
                       snap['uid']; // Replace with the actual document ID

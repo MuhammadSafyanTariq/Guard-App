@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/admin/Farms/EmployerForm.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
+import 'package:guard/users/Screens/profile/EditEmployerForm.dart';
+import 'package:guard/users/Screens/profile/EditGaurdForm.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -45,6 +48,32 @@ class _ProfileState extends State<Profile> {
     } catch (e) {
       print('Error fetching data: $e');
     }
+  }
+
+  void showEmployerForm(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: userData['type'] == 'Guard'
+                    ? EditGuardForm()
+                    : EditEmployerForm(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  editProfile() {
+    showEmployerForm(context);
   }
 
   @override
@@ -121,9 +150,29 @@ class _ProfileState extends State<Profile> {
                   SizedBox(height: 10),
                   SingleTextRow(text1: 'Phone', text2: phone!),
                   SizedBox(height: 10),
-                  SingleTextRow(text1: 'City', text2: city),
+                  SingleTextRow(text1: 'Address', text2: city),
                   SizedBox(height: 10),
                   Spacer(),
+                  ElevatedButton(
+                    onPressed: () {
+                      editProfile();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       AuthMethods().signOut();

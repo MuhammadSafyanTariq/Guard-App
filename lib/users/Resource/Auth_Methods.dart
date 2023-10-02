@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:guard/users/Models/Guard.dart';
+import 'package:guard/users/Screens/profile/EditGaurdForm.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -118,6 +117,55 @@ class AuthMethods {
       res = e.toString();
       print('Error sending password reset email: $e');
       throw e; // You can handle the error as needed, e.g., show an error message to the user.
+    }
+    return res;
+  }
+
+  Future<String> editGuard({
+    required String FullName,
+    required String phone,
+    required List<String> BadgeType,
+    required String DrivingLicence,
+    required String City,
+    required String Shift,
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if (FullName.isNotEmpty ||
+          phone.isNotEmpty ||
+          BadgeType.isNotEmpty ||
+          DrivingLicence.isNotEmpty ||
+          Shift.isNotEmpty ||
+          City.isNotEmpty) {
+        // registering user in auth with email and password
+
+        // String photoUrl = await StorageMehtods()
+        //     .uploadImagetoStorage('profilePics', file, false);
+
+        GuardModel _user = GuardModel(
+          FullName: FullName,
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          email: _auth.currentUser!.email.toString(),
+          phone: phone,
+          BadgeType: BadgeType,
+          DrivingLicence: DrivingLicence,
+          City: City,
+          Shift: Shift,
+          type: 'Guard',
+        );
+
+        // adding user in our database
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .set(_user.toJson());
+
+        res = "success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (err) {
+      return err.toString();
     }
     return res;
   }

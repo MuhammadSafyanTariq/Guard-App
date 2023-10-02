@@ -95,4 +95,44 @@ class AuthMethods {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<String> editProfile({
+    required String companyName,
+    required String address,
+    required String phone,
+    required String correspondingPerson,
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if (companyName.isNotEmpty ||
+          address.isNotEmpty ||
+          phone.isNotEmpty ||
+          correspondingPerson.isNotEmpty) {
+        // String photoUrl = await StorageMehtods()
+        //     .uploadImagetoStorage('profilePics', file, false);
+
+        EmployerModel _user = EmployerModel(
+          companyName: companyName,
+          uid: _auth.currentUser!.uid,
+          email: FirebaseAuth.instance.currentUser!.email.toString(),
+          phone: phone,
+          correspondingPerson: correspondingPerson,
+          address: address,
+        );
+
+        // adding user in our database
+        await _firestore
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set(_user.toJson());
+
+        res = "success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
 }

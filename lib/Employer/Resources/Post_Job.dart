@@ -26,6 +26,7 @@ class JobMethods {
     required String jobBadge,
     required double longitude,
     required double latitude,
+    required String address,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -49,6 +50,7 @@ class JobMethods {
           jobBadge: jobBadge,
           longitude: longitude,
           latitude: latitude,
+          address: address,
         );
 
         // adding user in our database
