@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/EmployeJob.dart';
 import 'package:guard/Employer/Screen/Invite/MyJobList.dart';
 import 'package:guard/admin/utils/GlobalVariables.dart';
+import 'package:guard/chat/chatpage.dart';
 
 class SingleJEmployeCard extends StatelessWidget {
   final snap;
@@ -98,6 +99,24 @@ class SingleJEmployeCard extends StatelessWidget {
                   );
                 },
                 child: Text('Invite'),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  textStyle: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatPage(id: snap['uid'], name: 'username'),
+                      ));
+                },
+                child: Text('Chat'),
               ),
             ),
           ],

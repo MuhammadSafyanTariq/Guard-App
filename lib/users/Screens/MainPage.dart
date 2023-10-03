@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
+import 'package:guard/chat/homepage.dart';
 import 'package:guard/users/Screens/MyInvitations.dart/Filter.dart';
 import 'package:guard/users/Screens/Search/AllJobs.dart';
 import 'package:guard/users/Screens/Search/MainSearchScreen.dart';
@@ -17,6 +18,7 @@ class _MainPageState extends State<MainPage> {
     Profile(),
     AllJobsScreen(),
     InvitaionFilter(),
+    MyHomePage(),
   ];
 
   @override
@@ -46,6 +48,10 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.work),
               label: 'My Jobs',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chats',
             ),
           ],
         ),

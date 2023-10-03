@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/PostJobs.dart';
 import 'package:guard/Employer/Search/MainSearchScreen.dart';
+import 'package:guard/chat/homepage.dart';
 import '../../users/Screens/MyInvitations.dart/Invite.dart';
 import 'EmployeJob.dart';
 import '../../users/Screens/profile/Profile.dart';
@@ -18,6 +19,7 @@ class _MainPage2State extends State<MainPage2> {
     JobForm(),
     MainSearchScreen(),
     Profile(),
+    MyHomePage(),
   ];
 
   @override
@@ -51,6 +53,10 @@ class _MainPage2State extends State<MainPage2> {
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
             ),
           ],
         ),
