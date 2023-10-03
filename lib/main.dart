@@ -109,7 +109,13 @@ class _MyAppState extends State<MyApp> {
                 return AnimatedSplashScreen(
                   duration: 1000,
                   splashIconSize: 300,
-                  splash: const Text('Guard Pass'),
+                  splash: Center(
+                    child: const Text(
+                      'Welcome to Guard Pass',
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                    ),
+                  ),
                   splashTransition: SplashTransition.slideTransition,
                   backgroundColor: Colors.black,
                   nextScreen: getUserTypeScreen(type),
@@ -132,7 +138,10 @@ class _MyAppState extends State<MyApp> {
             return AnimatedSplashScreen(
               duration: 1000,
               splashIconSize: 250,
-              splash: const Text('Guard Pass'),
+              splash: const Text(
+                'Welcome to Guard Pass',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+              ),
               splashTransition: SplashTransition.slideTransition,
               backgroundColor: Colors.black,
               nextScreen: LoginScreen(),

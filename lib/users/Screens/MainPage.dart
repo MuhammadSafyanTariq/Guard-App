@@ -15,10 +15,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   List<Widget> _pages = [
-    Profile(),
     AllJobsScreen(),
     InvitaionFilter(),
     MyHomePage(),
+    Profile(),
   ];
 
   @override
@@ -38,10 +38,6 @@ class _MainPageState extends State<MainPage> {
           iconSize: 40, // Set unselected color to black
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Find Jobs',
             ),
@@ -52,6 +48,10 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
             ),
           ],
         ),

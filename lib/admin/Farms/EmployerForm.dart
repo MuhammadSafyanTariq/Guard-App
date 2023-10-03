@@ -26,6 +26,7 @@ class _EmployerFormState extends State<EmployerForm> {
     setState(() {
       _isLoading = true;
     });
+
     res = await _authMethods.signUpUser(
         companyName: _companyNameController.text,
         address: _addressController.text,
@@ -36,14 +37,23 @@ class _EmployerFormState extends State<EmployerForm> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainPage2(),
-        ));
     if (res != 'success') {
       showSnackBar(res, context);
-    } else {}
+    } else if (_companyNameController.text.isEmpty ||
+        _addressController.text.isEmpty ||
+        _phoneController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _corresPersonController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      showSnackBar('Enter all data', context);
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainPage2(),
+          ));
+    }
+
     return res;
   }
 

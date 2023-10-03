@@ -1,9 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/Widgets/SingleJobCard.dart';
 
 class EmployeeJobs extends StatelessWidget {
+  void showJobFom(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: JobForm(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
@@ -11,7 +32,29 @@ class EmployeeJobs extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("MY JOBS"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("MY JOBS"),
+              TextButton(
+                child: Row(
+                  children: [
+                    Text(
+                      "Add JOBS",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  showJobFom(context);
+                },
+              ),
+            ],
+          ),
           backgroundColor: Colors.black,
         ),
         body: Center(

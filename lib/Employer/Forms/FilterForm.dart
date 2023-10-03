@@ -21,7 +21,10 @@ class _FilterFormState extends State<FilterForm> {
 
   Widget buildBadgeTypeCheckbox(String title) {
     return CheckboxListTile(
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.black),
+      ),
       value: _selectedBadgeTypes.contains(title),
       onChanged: (value) {
         setState(() {
@@ -54,59 +57,87 @@ class _FilterFormState extends State<FilterForm> {
 
   @override
   Widget build(BuildContext context) {
+    double W = MediaQuery.of(context).size.width;
+    double H = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'Filter Employes',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stepper(
-              steps: _buildSteps(),
-              currentStep: _currentStep,
-              onStepTapped: (step) {
-                setState(() {
-                  _currentStep = step;
-                });
-              },
-              onStepContinue: () {
-                if (_currentStep < _buildSteps().length - 1) {
-                  setState(() {
-                    _currentStep++;
-                  });
-                } else {}
-              },
-              onStepCancel: () {
-                if (_currentStep > 0) {
-                  setState(() {
-                    _currentStep--;
-                  });
-                }
-              },
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(6),
+            constraints: BoxConstraints(
+              minWidth: W * 0.95,
+              maxWidth: W * 0.95,
+              minHeight: H * 0.8,
+              maxHeight: H * 0.8,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => FilteredEmployesScreen(
-                        selectedBadgeTypes: _selectedBadgeTypes,
-                        selectedShiftPreferences: _selectedShiftPreferences,
-                        selectedDrivingLicense: _selectedDrivingLicense,
-                      ),
-                    ),
-                  );
-                },
-                child: Text('Filter Employes'),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  (20),
+                ),
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 20,
+                    spreadRadius: 2.0,
+                    offset: Offset(-10, 7)),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white,
+                  Colors.grey,
+                  const Color.fromARGB(255, 124, 123, 123)
+                ],
               ),
             ),
-          ],
+            child: Column(
+              children: [
+                Stepper(
+                  steps: _buildSteps(),
+                  currentStep: _currentStep,
+                  onStepTapped: (step) {
+                    setState(() {
+                      _currentStep = step;
+                    });
+                  },
+                  onStepContinue: () {
+                    if (_currentStep < _buildSteps().length - 1) {
+                      setState(() {
+                        _currentStep++;
+                      });
+                    } else {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FilteredEmployesScreen(
+                            selectedBadgeTypes: _selectedBadgeTypes,
+                            selectedShiftPreferences: _selectedShiftPreferences,
+                            selectedDrivingLicense: _selectedDrivingLicense,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  onStepCancel: () {
+                    if (_currentStep > 0) {
+                      setState(() {
+                        _currentStep--;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -136,10 +167,15 @@ class _FilterFormState extends State<FilterForm> {
   List<Step> _buildSteps() {
     return [
       Step(
-        title: Text('Badge Type'),
+        title: Text(
+          'Badge Type',
+          style: TextStyle(color: Colors.black),
+        ),
         content: Column(
           children: [
-            buildBadgeTypeCheckbox('Security Guard'),
+            buildBadgeTypeCheckbox(
+              'Security Guard',
+            ),
             buildBadgeTypeCheckbox('Door Supervisor'),
             buildBadgeTypeCheckbox('CCTV'),
             buildBadgeTypeCheckbox('Close Protection'),
@@ -148,7 +184,10 @@ class _FilterFormState extends State<FilterForm> {
         isActive: true,
       ),
       Step(
-        title: Text('Driving License'),
+        title: Text(
+          'Driving License',
+          style: TextStyle(color: Colors.black),
+        ),
         content: Column(
           children: [
             buildDrivingLicenseDropdown(),

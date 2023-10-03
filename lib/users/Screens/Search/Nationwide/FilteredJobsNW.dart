@@ -91,8 +91,7 @@ class _FilterNationWideScreenState extends State<FilterNationWideScreen> {
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                         snapshot) {
-                  if (ConnectionState == ConnectionState.waiting ||
-                      snapshot.data == null) {
+                  if (ConnectionState == ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );

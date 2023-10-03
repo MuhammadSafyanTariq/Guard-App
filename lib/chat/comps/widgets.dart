@@ -6,7 +6,7 @@ import 'animated-dialog.dart';
 
 class ChatWidgets {
   static Widget card({title, time, subtitle, onTap}) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         elevation: 0,
@@ -14,7 +14,7 @@ class ChatWidgets {
           onTap: onTap,
           contentPadding: const EdgeInsets.all(5),
           leading: const Padding(
-            padding: EdgeInsets.all(0.0),
+            padding: EdgeInsets.all(10),
             child: CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(

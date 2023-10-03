@@ -153,47 +153,53 @@ class _ProfileState extends State<Profile> {
                   SingleTextRow(text1: 'Address', text2: city),
                   SizedBox(height: 10),
                   Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      editProfile();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Edit Profile',
-                        style: TextStyle(
-                          fontSize: 30,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          editProfile();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      AuthMethods().signOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                      // Add logic for editing profile
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Log out',
-                        style: TextStyle(
-                          fontSize: 30,
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          AuthMethods().signOut();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
+                          // Add logic for editing profile
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Log out',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(
                     height: H / 50,

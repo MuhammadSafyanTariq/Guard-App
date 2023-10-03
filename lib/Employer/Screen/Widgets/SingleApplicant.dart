@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guard/chat/chatpage.dart';
 
 class SingleApplicantCard extends StatelessWidget {
   final snap;
@@ -51,6 +52,24 @@ class SingleApplicantCard extends StatelessWidget {
             ),
             SizedBox(
               height: 10,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  textStyle: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatPage(id: snap['uid'], name: 'username'),
+                      ));
+                },
+                child: Text('Chat'),
+              ),
             ),
           ],
         ),

@@ -5,6 +5,25 @@ import 'package:guard/users/Screens/Search/AllJobs.dart';
 
 class MainSearchScreen extends StatelessWidget {
   const MainSearchScreen({super.key});
+  showFilterFom(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: FilterForm(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +103,7 @@ class MainSearchScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text('Show All Employers'),
+                    child: Text('Show All Employes'),
                   ),
                 ),
                 SizedBox(
@@ -99,14 +118,9 @@ class MainSearchScreen extends StatelessWidget {
                       textStyle: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FilterForm(),
-                        ),
-                      );
+                      showFilterFom(context);
                     },
-                    child: Text('Filter Employers'),
+                    child: Text('Filter Employes'),
                   ),
                 ),
                 SizedBox(

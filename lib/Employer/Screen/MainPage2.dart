@@ -16,10 +16,9 @@ class _MainPage2State extends State<MainPage2> {
   int _currentIndex = 0;
   List<Widget> _pages = [
     EmployeeJobs(),
-    JobForm(),
     MainSearchScreen(),
-    Profile(),
     MyHomePage(),
+    Profile(),
   ];
 
   @override
@@ -43,20 +42,16 @@ class _MainPage2State extends State<MainPage2> {
               label: 'Dash',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.work),
-              label: 'My Ads',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.search_outlined),
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
             ),
           ],
         ),

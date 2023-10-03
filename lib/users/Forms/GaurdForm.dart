@@ -18,27 +18,35 @@ class _GuardFormState extends State<GuardForm> {
     setState(() {
       _isLoading = true;
     });
-    res = await _authMethods.signUpUser(
-      FullName: _fullName!,
-      email: _email!,
-      password: _passwordController.text,
-      phone: _phoneNumber!,
-      BadgeType: _selectedBadgeTypes,
-      DrivingLicence: _selectedDrivingLicense!,
-      City: address!,
-      Shift: _selectedShiftPreferences!,
-    );
-    // setState(() {
-    //   _isLoading = false;
-    // });
-    if (res != 'success') {
-      showSnackBar(res, context);
+    if (_fullName == null ||
+        _email == null ||
+        _passwordController.text.isEmpty ||
+        _phoneNumber == null ||
+        address == null) {
+      showSnackBar('Enter all data', context);
     } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => MainPage(),
-        ),
+      res = await _authMethods.signUpUser(
+        FullName: _fullName!,
+        email: _email!,
+        password: _passwordController.text,
+        phone: _phoneNumber!,
+        BadgeType: _selectedBadgeTypes,
+        DrivingLicence: _selectedDrivingLicense!,
+        City: address!,
+        Shift: _selectedShiftPreferences!,
       );
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      if (res != 'success') {
+        showSnackBar(res, context);
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => MainPage(),
+          ),
+        );
+      }
     }
     return res;
   }

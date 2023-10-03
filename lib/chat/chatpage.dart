@@ -22,12 +22,17 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
+    double W = MediaQuery.of(context).size.width;
+    double H = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.indigo.shade400,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.indigo.shade400,
-        title: Text(name),
+        backgroundColor: Colors.black,
+        title: Text(
+          name,
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 0,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
@@ -44,7 +49,10 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Text(
                   'Chats',
-                  style: Styles.h1(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 StreamBuilder(
@@ -76,71 +84,109 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           Expanded(
-            child: Container(
-              decoration: Styles.friendsBox(),
-              child: StreamBuilder(
-                  stream: firestore.collection('Rooms').snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.docs.isNotEmpty) {
-                        List<QueryDocumentSnapshot> allData = snapshot
-                            .data!.docs
-                            .where(
-                              (element) =>
-                                  element['users'].contains(widget.id) &&
-                                  element['users'].contains(
-                                      FirebaseAuth.instance.currentUser!.uid),
-                            )
-                            .toList();
-                        QueryDocumentSnapshot? data =
-                            allData.isNotEmpty ? allData.first : null;
-                        if (data != null) {
-                          roomId = data.id;
-                        }
-                        return data == null
-                            ? Container(
-                                child: Center(),
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.all(6),
+                constraints: BoxConstraints(
+                  minWidth: W * 0.95,
+                  maxWidth: W * 0.95,
+                  minHeight: H * 0.8,
+                  maxHeight: H * 0.8,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      (20),
+                    ),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 20,
+                        spreadRadius: 2.0,
+                        offset: Offset(-10, 7)),
+                  ],
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white,
+                      Colors.grey,
+                      const Color.fromARGB(255, 124, 123, 123)
+                    ],
+                  ),
+                ),
+                child: StreamBuilder(
+                    stream: firestore.collection('Rooms').snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.docs.isNotEmpty) {
+                          List<QueryDocumentSnapshot> allData = snapshot
+                              .data!.docs
+                              .where(
+                                (element) =>
+                                    element['users'].contains(widget.id) &&
+                                    element['users'].contains(
+                                        FirebaseAuth.instance.currentUser!.uid),
                               )
-                            : StreamBuilder(
-                                stream: data.reference
-                                    .collection('messages')
-                                    .orderBy('datetime', descending: true)
-                                    .snapshots(),
-                                builder: (context,
-                                    AsyncSnapshot<QuerySnapshot> snap) {
-                                  return !snap.hasData
-                                      ? Container()
-                                      : ListView.builder(
-                                          itemCount: snap.data!.docs.length,
-                                          reverse: true,
-                                          itemBuilder: (context, i) {
-                                            return ChatWidgets.messagesCard(
-                                                snap.data!.docs[i]['sent_by'] ==
-                                                    FirebaseAuth.instance
-                                                        .currentUser!.uid,
-                                                snap.data!.docs[i]['message'],
-                                                DateFormat('hh:mm a').format(
-                                                    snap.data!
-                                                        .docs[i]['datetime']
-                                                        .toDate()));
-                                          },
-                                        );
-                                });
+                              .toList();
+                          QueryDocumentSnapshot? data =
+                              allData.isNotEmpty ? allData.first : null;
+                          if (data != null) {
+                            roomId = data.id;
+                          }
+                          return data == null
+                              ? Container(
+                                  child: Center(),
+                                )
+                              : StreamBuilder(
+                                  stream: data.reference
+                                      .collection('messages')
+                                      .orderBy('datetime', descending: true)
+                                      .snapshots(),
+                                  builder: (context,
+                                      AsyncSnapshot<QuerySnapshot> snap) {
+                                    return !snap.hasData
+                                        ? Container()
+                                        : ListView.builder(
+                                            itemCount: snap.data!.docs.length,
+                                            reverse: true,
+                                            itemBuilder: (context, i) {
+                                              return ChatWidgets.messagesCard(
+                                                  snap.data!.docs[i]
+                                                          ['sent_by'] ==
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.uid,
+                                                  snap.data!.docs[i]['message'],
+                                                  DateFormat('hh:mm a').format(
+                                                      snap.data!
+                                                          .docs[i]['datetime']
+                                                          .toDate()));
+                                            },
+                                          );
+                                  });
+                        } else {
+                          return Center(
+                            child: Text('No conversation found'),
+                          );
+                        }
                       } else {
                         return Center(
-                          child: Text('No conversation found'),
+                          child: CircularProgressIndicator(),
                         );
                       }
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
+                    }),
+              ),
             ),
           ),
           Container(
-            color: Colors.white,
+            color: Colors.black,
             child: ChatWidgets.messageField(onSubmit: (controller) {
               if (controller.text.toString() != '') {
                 if (roomId != null) {
