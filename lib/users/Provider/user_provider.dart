@@ -13,6 +13,12 @@ class UserProvider with ChangeNotifier {
     City: '',
     Shift: '',
     type: '',
+    address2: '',
+    dateOfBirth: '',
+    gender: '',
+    photoUrl: '',
+    police: false,
+    postCode: '',
   );
   final AuthMethods _authMethods = AuthMethods();
 

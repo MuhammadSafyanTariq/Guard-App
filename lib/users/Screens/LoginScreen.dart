@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/MainPage2.dart';
-import 'package:guard/main.dart';
-import 'package:guard/users/Forms/GaurdForm.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';

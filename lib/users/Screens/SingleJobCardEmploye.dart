@@ -2,10 +2,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/admin/utils/colors.dart';
+import 'package:guard/users/Screens/JobDetails.dart';
 
 class SingleJobCardEmploye extends StatelessWidget {
   final snap;
   const SingleJobCardEmploye({super.key, this.snap});
+  void _showJobDetails(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true, // Set to true for a full-height bottom sheet
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8, // Set to 70% of the screen height
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: AdDetailsPage(
+                  position: snap['position'],
+                  shift: snap['shift'],
+                  rate: snap['rate'],
+                  rateType: snap['rateType'],
+                  venue: snap['venue'],
+                  correspondingPerson: snap['correspondingPerson'],
+                  jobType: snap['jobType'],
+                  benefits: snap['benefits'],
+                  description: snap['description'],
+                  email: snap['empContactEmail'],
+                  address: snap['address'] ?? '',
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,38 +93,57 @@ class SingleJobCardEmploye extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15),
-            Center(
-              child: SizedBox(
-                width: 120,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    String docId =
-                        snap['jid']; // Replace with the actual document ID
-                    String candidateId = FirebaseAuth.instance.currentUser!
-                        .uid; // Replace with the candidate ID
-
-                    try {
-                      await addCandidateToJob(docId, candidateId);
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text('Applied Successfuly'),
-                        ),
-                      );
-                    } catch (e) {
-                      // Handle any errors here
-                    }
-                  },
-                  child: Text('Apply'),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        )),
+                    onPressed: () {
+                      _showJobDetails(context);
+                    },
+                    child: Text('See Details'),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      String docId =
+                          snap['jid']; // Replace with the actual document ID
+                      String candidateId = FirebaseAuth.instance.currentUser!
+                          .uid; // Replace with the candidate ID
+
+                      try {
+                        await addCandidateToJob(docId, candidateId);
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: Text('Applied Successfuly'),
+                          ),
+                        );
+                      } catch (e) {
+                        // Handle any errors here
+                      }
+                    },
+                    child: Text('Apply'),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

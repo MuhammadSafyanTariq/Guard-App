@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:guard/admin/utils/utils.dart';
 import 'package:guard/users/Models/Guard.dart';
 import 'package:guard/users/Screens/profile/EditGaurdForm.dart';
 
@@ -28,6 +30,7 @@ class AuthMethods {
     required String DrivingLicence,
     required String City,
     required String Shift,
+    required String postCode,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -38,7 +41,8 @@ class AuthMethods {
           BadgeType.isNotEmpty ||
           DrivingLicence.isNotEmpty ||
           Shift.isNotEmpty ||
-          City.isNotEmpty) {
+          City.isNotEmpty ||
+          postCode.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -58,6 +62,12 @@ class AuthMethods {
           City: City,
           Shift: Shift,
           type: 'employee',
+          postCode: postCode,
+          address2: '',
+          dateOfBirth: '',
+          gender: '',
+          photoUrl: '',
+          police: false,
         );
 
         // adding user in our database
@@ -128,6 +138,12 @@ class AuthMethods {
     required String DrivingLicence,
     required String City,
     required String Shift,
+    required String postCode,
+    required String dateOfBirth,
+    required String address2,
+    required String gender,
+    required bool police,
+    required String photoUrl,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -137,14 +153,9 @@ class AuthMethods {
           DrivingLicence.isNotEmpty ||
           Shift.isNotEmpty ||
           City.isNotEmpty) {
-        // registering user in auth with email and password
-
-        // String photoUrl = await StorageMehtods()
-        //     .uploadImagetoStorage('profilePics', file, false);
-
         GuardModel _user = GuardModel(
           FullName: FullName,
-          uid: FirebaseAuth.instance.currentUser!.uid,
+          uid: FirebaseAuth.instance.currentUser!.email.toString(),
           email: _auth.currentUser!.email.toString(),
           phone: phone,
           BadgeType: BadgeType,
@@ -152,6 +163,12 @@ class AuthMethods {
           City: City,
           Shift: Shift,
           type: 'Guard',
+          address2: address2,
+          dateOfBirth: dateOfBirth,
+          gender: gender,
+          photoUrl: photoUrl,
+          police: police,
+          postCode: postCode,
         );
 
         // adding user in our database

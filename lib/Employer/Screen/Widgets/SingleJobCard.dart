@@ -29,7 +29,7 @@ class SingleJobCardEmployer extends StatelessWidget {
                   benefits: snap['benefits'],
                   description: snap['description'],
                   email: snap['empContactEmail'],
-                  address: snap['address'],
+                  address: snap['address'] ?? '',
                 ),
               ),
             ],

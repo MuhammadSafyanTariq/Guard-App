@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/MainPage2.dart';
 import 'package:guard/admin/Resource/Auth_Methods.dart';
+import 'package:guard/admin/utils/GlobalVariables.dart';
 import 'package:guard/users/utils/utils.dart';
 
 class EditEmployerForm extends StatefulWidget {
@@ -11,12 +12,16 @@ class EditEmployerForm extends StatefulWidget {
 class _EditEmployerFormState extends State<EditEmployerForm> {
   int _currentStep = 0;
 
-  final TextEditingController _companyNameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _corresPersonController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _companyNameController =
+      TextEditingController(text: FullNameg);
+  final TextEditingController _addressController =
+      TextEditingController(text: addressg);
+  final TextEditingController _phoneController =
+      TextEditingController(text: phoneg);
+  final TextEditingController _emailController =
+      TextEditingController(text: emailg);
+  final TextEditingController _corresPersonController =
+      TextEditingController(text: correspondingPersong);
 
   bool _isLoading = false;
   final AuthMethods _authMethods = AuthMethods();

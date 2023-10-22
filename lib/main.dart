@@ -1,13 +1,9 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/admin/Farms/EmployerForm.dart';
-import 'package:guard/users/Forms/FilterForm.dart';
 import 'package:guard/users/Provider/user_provider.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
 import 'package:guard/users/Screens/MainPage.dart';
