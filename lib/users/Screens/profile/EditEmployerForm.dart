@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Screen/MainPage2.dart';
 import 'package:guard/admin/Resource/Auth_Methods.dart';
 import 'package:guard/admin/utils/GlobalVariables.dart';
+import 'package:guard/users/Resource/storage_methods.dart';
 import 'package:guard/users/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditEmployerForm extends StatefulWidget {
   @override
@@ -22,6 +26,14 @@ class _EditEmployerFormState extends State<EditEmployerForm> {
       TextEditingController(text: emailg);
   final TextEditingController _corresPersonController =
       TextEditingController(text: correspondingPersong);
+  Uint8List? _image;
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
 
   bool _isLoading = false;
   final AuthMethods _authMethods = AuthMethods();
@@ -31,11 +43,18 @@ class _EditEmployerFormState extends State<EditEmployerForm> {
     setState(() {
       _isLoading = true;
     });
+    String photoUrl = imageUrlG ?? '';
+    if (_image != null) {
+      photoUrl =
+          await StorageMehtods().uploadImagetoStorage('Images', _image!, false);
+    }
+    print('pppppppppppppppppppppppppppp$photoUrl');
     res = await _authMethods.editProfile(
       companyName: _companyNameController.text,
       address: _addressController.text,
       phone: _phoneController.text,
       correspondingPerson: _corresPersonController.text,
+      imageUrl: photoUrl,
     );
     setState(() {
       _isLoading = false;
@@ -152,8 +171,37 @@ class _EditEmployerFormState extends State<EditEmployerForm> {
               child: _isLoading
                   ? CircularProgressIndicator()
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Stack(
+                          children: [
+                            _image != null
+                                ? CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: MemoryImage(_image!),
+                                    radius: 50,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: NetworkImage(
+                                        imageUrlG ?? emptyAvatarImage),
+                                    radius: 50,
+                                  ),
+                            Positioned(
+                                top: 60,
+                                left: 64,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.black,
+                                    size: 30,
+                                  ),
+                                  onPressed: () async {
+                                    selectImage();
+                                  },
+                                ))
+                          ],
+                        ),
                         Stepper(
                           steps: _steps,
                           currentStep: _currentStep,

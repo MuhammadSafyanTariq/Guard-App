@@ -97,14 +97,14 @@ class SingleJobCardEmploye extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width * 0.35,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
                         )),
                     onPressed: () {
                       _showJobDetails(context);
@@ -113,7 +113,7 @@ class SingleJobCardEmploye extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width * 0.35,
                   child: ElevatedButton(
                     onPressed: () async {
                       String docId =
@@ -133,13 +133,15 @@ class SingleJobCardEmploye extends StatelessWidget {
                         // Handle any errors here
                       }
                     },
-                    child: Text('Apply'),
+                    child: Text(
+                      'Apply',
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         textStyle: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
                         )),
                   ),
                 ),

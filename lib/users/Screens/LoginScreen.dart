@@ -6,11 +6,13 @@ import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';
 
-import 'RegistrationScreen.dart'; // Replace with your actual import path
+import 'RegistrationScreen.dart'; //
 
 String? type;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -60,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
               : userData['type'] == 'Guard'
                   ? MainPage()
                   : Container(
-                      child: Center(
+                      child: const Center(
                       child: Text("Check your Network connection"),
                     )),
         ),
@@ -105,12 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           constraints: BoxConstraints(
             minWidth: W * 0.95,
             maxWidth: W * 0.95,
@@ -124,25 +126,25 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 2,
               style: BorderStyle.solid,
             ),
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(
                 (20),
               ),
             ),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.black,
                   blurRadius: 20,
                   spreadRadius: 2.0,
                   offset: Offset(-10, 7)),
             ],
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
                 Colors.white,
                 Colors.grey,
-                const Color.fromARGB(255, 124, 123, 123)
+                Color.fromARGB(255, 124, 123, 123)
               ],
             ),
           ),
@@ -158,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -173,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   forgetPassword();
                 },
-                child: Text(
+                child: const Text(
                   'Forgot Password?',
                   style: TextStyle(
                     color: Colors.black,
@@ -181,13 +183,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   LoginUser();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                child: Padding(
+                child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Login',
@@ -198,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -207,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context) => RegistrationScreen()),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'Don\'t have an account? Register',
                   style: TextStyle(
                     color: Colors.black,

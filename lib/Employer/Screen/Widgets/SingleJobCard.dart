@@ -85,8 +85,9 @@ class SingleJobCardEmployer extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ApplicantsFilterScreen(jid: snap['jid']),
+                            builder: (context) => ApplicantsFilterScreen(
+                              jid: snap['jid'],
+                            ),
                           ));
                     },
                     child: Text('View Applicants'),

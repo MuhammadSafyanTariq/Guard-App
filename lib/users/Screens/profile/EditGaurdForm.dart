@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +10,7 @@ import 'package:guard/users/Resource/storage_methods.dart';
 import 'package:guard/users/Screens/MainPage.dart';
 import 'package:guard/users/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class EditGuardForm extends StatefulWidget {
   const EditGuardForm({super.key});
@@ -25,14 +28,20 @@ class _EditGuardFormState extends State<EditGuardForm> {
   final addressController = TextEditingController(text: addressg);
   final _postalCodeController = TextEditingController();
   final _houseNumberController = TextEditingController();
-  String? gender;
-  bool policeExperience = false;
+  String? gender = genderG;
+  bool policeExperience = isPoliceG ?? false;
   DateTime? dateOfBirth;
   Future<String> editGuard() async {
     String res = '';
     setState(() {
       _isLoading = true;
     });
+    String photoUrl = imageUrlG ?? '';
+    if (_image != null) {
+      photoUrl =
+          await StorageMehtods().uploadImagetoStorage('Images', _image!, false);
+    }
+
     res = await _authMethods.editGuard(
       FullName: FullNameg,
       phone: phoneg,
@@ -40,14 +49,29 @@ class _EditGuardFormState extends State<EditGuardForm> {
       DrivingLicence: drivingLicenceg,
       City: addressg,
       Shift: shiftg,
-      address2: '',
-      dateOfBirth: '',
-      gender: '',
-      photoUrl: '',
-      police: false,
-      postCode: '',
+      dateOfBirth: dateOfBirth.toString().length > 5
+          ? dateOfBirth.toString()
+          : dobg ?? '',
+      gender: gender ?? genderG ?? '',
+      photoUrl: photoUrl,
+      police: policeExperience,
+      postCode: _postalCodeController.text,
     );
+    await getData();
 
+    if (imageUrlG.toString().length > 5) {
+      profilePercent += 20;
+    }
+    if (genderG.toString().length > 1) {
+      profilePercent += 5;
+    }
+    if (dobg.toString().length > 5) {
+      profilePercent += 10;
+    }
+
+    if (isPoliceG.toString().length > 1) {
+      profilePercent += 5;
+    }
     if (res != 'success') {
       showSnackBar(res, context);
     } else {
@@ -61,8 +85,8 @@ class _EditGuardFormState extends State<EditGuardForm> {
   }
 
   int _currentStep = 0;
-  final List<String> _selectedBadgeTypes = [];
-  String? _selectedDrivingLicense;
+  final List<dynamic> _selectedBadgeTypes = badgeTypeg;
+  String? _selectedDrivingLicense = drivingLicenceg;
   String? _fullName;
   String? _phoneNumber;
   List<String> cities = [
@@ -300,11 +324,18 @@ class _EditGuardFormState extends State<EditGuardForm> {
                     children: [
                       Stack(
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            backgroundImage: NetworkImage(emptyAvatarImage),
-                            radius: 50,
-                          ),
+                          _image != null
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: MemoryImage(_image!),
+                                  radius: 50,
+                                )
+                              : CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: NetworkImage(
+                                      imageUrlG ?? emptyAvatarImage),
+                                  radius: 50,
+                                ),
                           Positioned(
                               top: 60,
                               left: 64,
@@ -508,12 +539,15 @@ class _EditGuardFormState extends State<EditGuardForm> {
                   });
                 }
               },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: Text('Select Date of Birth'),
             ),
             Text(
               dateOfBirth != null
                   ? 'My Date of Birth: ${dateOfBirth.toString().substring(0, 10)}'
-                  : 'No Date Selected',
+                  : dobg.toString().length > 5
+                      ? 'My Date of Birth: ${dobg.toString().substring(0, 10)}'
+                      : 'No Date Selected',
             ),
           ],
         ),

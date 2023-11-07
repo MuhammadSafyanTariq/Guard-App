@@ -25,6 +25,7 @@ class _ApplicantsFilterScreenState extends State<ApplicantsFilterScreen> {
       if (userSnap.exists) {
         userData = userSnap.data() as Map<String, dynamic>;
         candidates = userData['candidates'];
+        print(candidates);
         //I am getting correct user type here
         print('User type: $candidates');
       } else {

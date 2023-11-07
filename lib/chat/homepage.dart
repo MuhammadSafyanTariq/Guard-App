@@ -258,10 +258,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       subtitle: data[i]
                                                           ['last_message'],
                                                       time: DateFormat(
-                                                              'hh:mm a')
-                                                          .format(data[i][
-                                                                  'last_message_time']
-                                                              .toDate()),
+                                                        'hh:mm a',
+                                                      ).format(data[i][
+                                                              'last_message_time']
+                                                          .toDate()),
                                                       onTap: () {
                                                         Navigator.of(context)
                                                             .push(

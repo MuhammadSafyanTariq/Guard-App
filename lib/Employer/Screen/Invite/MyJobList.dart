@@ -41,7 +41,3 @@ class MyJobsList extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(home: MyJobsList()));
-}

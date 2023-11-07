@@ -30,6 +30,7 @@ String FullNameg = '';
 String addressg = '';
 List<dynamic> badgeTypeg = [];
 String badgesg = '';
+int profilePercent = 60;
 String drivingLicenceg = '';
 String shiftg = '';
 String typeg = '';
@@ -37,6 +38,12 @@ String correspondingPersong = '';
 String address2g = '';
 String emptyAvatarImage =
     'https://firebasestorage.googleapis.com/v0/b/gaurdpass.appspot.com/o/avatar.png?alt=media&token=12e1042c-0504-4ed3-a3d8-c7024088c0ce';
+String? imageUrlG;
+String? genderG;
+bool? isPoliceG;
+String? dobg;
+String? postalCodeG;
+double profilePercentageG = 60;
 var userData = {};
 getData() async {
   try {
@@ -57,10 +64,33 @@ getData() async {
         badgesg = badgesg.substring(1, badgesg.length - 1);
         drivingLicenceg = userData['DrivingLicence'];
         shiftg = userData['Shift'];
-        print(shiftg);
+        print(addressg);
+        try {
+          imageUrlG = userData['photoUrl'];
+          print(imageUrlG);
+          // imageUrlG = userData['photoUrl'] ?? userData['imageUrl'];
+          print(imageUrlG);
+        } catch (e) {}
+        try {
+          genderG = userData['gender'];
+        } catch (e) {}
+        try {
+          isPoliceG = userData['police'];
+        } catch (e) {}
+        try {
+          dobg = userData['dateOfBirth'];
+        } catch (e) {}
+        try {
+          postalCodeG = userData['postCode'];
+        } catch (e) {}
       } else {
         addressg = userData['address'];
         FullNameg = userData['CompanyName'];
+        try {
+          imageUrlG = userData['photoUrl'];
+
+          print('here is the image;                $imageUrlG');
+        } catch (e) {}
         correspondingPersong = userData['CorrespondingPerson'];
         print(
             'ccccccccccccccccccccccccccccccccccccccccccccccccc$correspondingPersong');
@@ -73,4 +103,20 @@ getData() async {
   } catch (e) {
     print('Error fetching data: $e');
   }
+  // if (imageUrlG.toString().length > 5&&) {
+  //   profilePercent += 20;
+  // }
+  // if (imageUrlG.toString().length > 5) {
+  //   profilePercent += 20;
+  // }
+  // if (genderG.toString().length > 1) {
+  //   profilePercent += 5;
+  // }
+  // if (dobg.toString().length > 5) {
+  //   profilePercent += 10;
+  // }
+
+  // if (isPoliceG.toString().length > 1) {
+  //   profilePercent += 5;
+  // }
 }

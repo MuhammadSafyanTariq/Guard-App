@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:guard/admin/utils/GlobalVariables.dart';
 
-class AdDetailsPage extends StatefulWidget {
-  final String position;
-  final String shift;
-  final String rate;
-  final String rateType;
-  final String venue;
-  final String correspondingPerson;
-  final String jobType;
-  final String benefits;
-  final String description;
+class EmployeDetailScreen extends StatefulWidget {
+  final String FullName;
   final String email;
-  final String address;
+  final String phone;
+  final List<dynamic> BadgeType;
+  final String DrivingLicence;
+  final String City;
+  final String Shift;
+  final String? dateOfBirth;
+  final String gender;
+  final bool police;
+  final String? photoUrl;
 
-  AdDetailsPage({
-    required this.position,
-    required this.shift,
-    required this.rate,
-    required this.rateType,
-    required this.venue,
-    required this.correspondingPerson,
-    required this.jobType,
-    required this.benefits,
-    required this.description,
+  EmployeDetailScreen({
+    required this.FullName,
     required this.email,
-    required this.address,
+    required this.phone,
+    required this.BadgeType,
+    required this.DrivingLicence,
+    required this.City,
+    required this.Shift,
+    required this.dateOfBirth,
+    required this.gender,
+    required this.police,
+    required this.photoUrl,
   });
 
   @override
-  _AdDetailsPageState createState() => _AdDetailsPageState();
+  _EmployeDetailScreenState createState() => _EmployeDetailScreenState();
 }
 
-class _AdDetailsPageState extends State<AdDetailsPage> {
+class _EmployeDetailScreenState extends State<EmployeDetailScreen> {
   bool isPanelOpen = false;
   double panelHeight = 80.0; // Minimum height when panel is closed
 
@@ -84,12 +85,21 @@ class _AdDetailsPageState extends State<AdDetailsPage> {
               children: [
                 Column(
                   children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      backgroundImage: NetworkImage(
+                        widget.photoUrl.toString().length < 5
+                            ? emptyAvatarImage
+                            : widget.photoUrl.toString(),
+                      ),
+                      radius: 50,
+                    ),
                     SizedBox(
                       height: 30,
                     ),
                     Center(
                       child: Text(
-                        'Job Details',
+                        '${widget.FullName} Details',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -99,104 +109,59 @@ class _AdDetailsPageState extends State<AdDetailsPage> {
                     SizedBox(
                       height: 30,
                     ),
-                    SingleTextRow2(text1: 'Position', text2: widget.position),
+                    SingleTextRow2(text1: 'Email', text2: widget.email),
                     SizedBox(
                       height: 15,
                     ),
-                    SingleTextRow2(text1: 'Shift', text2: widget.shift),
+                    SingleTextRow2(text1: 'Phone', text2: widget.phone),
                     SizedBox(
                       height: 15,
                     ),
-                    SingleTextRow2(text1: 'Rate', text2: widget.rateType),
+                    SingleTextRow2(
+                        text1: 'Badge Type',
+                        text2: widget.BadgeType.toString().substring(
+                            1, (widget.BadgeType.toString().length - 1))),
                     SizedBox(
                       height: 15,
                     ),
-                    SingleTextRow2(text1: 'Job Type', text2: widget.jobType),
+                    SingleTextRow2(
+                        text1: 'Driving Licence', text2: widget.DrivingLicence),
                     SizedBox(
                       height: 15,
                     ),
-                    SingleTextRow2(text1: 'Benefits', text2: widget.benefits),
+                    SingleTextRow2(text1: 'Address', text2: widget.City),
                     SizedBox(
                       height: 15,
                     ),
                     SizedBox(
                         child: SingleTextRow2(
-                      text1: 'Address',
-                      text2: widget.address,
+                      text1: 'Shift',
+                      text2: widget.Shift,
                     )),
                     SizedBox(
                       height: 15,
                     ),
-                    SingleTextRow2(text1: 'Email', text2: widget.email),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Coresponding person:    ', // Replace with user's name
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          child: Row(
-                            children: [
-                              Text(
-                                widget
-                                    .correspondingPerson, // Replace with user's name
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text(
-                        'Venue',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                    if (widget.dateOfBirth.toString().length > 5)
+                      SingleTextRow2(
+                          text1: 'Date of Birth',
+                          text2:
+                              widget.dateOfBirth.toString().substring(0, 10)),
+                    if (widget.gender.toString().length > 5)
+                      SizedBox(
+                        height: 15,
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      widget.venue,
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text(
-                        'Description',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                    if (widget.gender.toString().length > 3)
+                      SingleTextRow2(
+                          text1: 'Gender', text2: widget.gender.toString()),
+                    if (widget.gender.toString().length > 3)
+                      SizedBox(
+                        height: 15,
                       ),
-                    ),
+                    SingleTextRow2(
+                        text1: 'Police OR Military\nExperience',
+                        text2: widget.police ? 'Yes' : 'No'),
                     SizedBox(
                       height: 15,
-                    ),
-                    Text(
-                      widget.description,
-                      style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   ],
                 ),

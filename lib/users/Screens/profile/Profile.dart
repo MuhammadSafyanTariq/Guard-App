@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:guard/admin/Farms/EmployerForm.dart';
 import 'package:guard/admin/utils/GlobalVariables.dart';
 import 'package:guard/users/Resource/Auth_Methods.dart';
 import 'package:guard/users/Screens/LoginScreen.dart';
@@ -30,7 +28,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Expanded(
                 child: userData['type'] == 'Guard'
-                    ? EditGuardForm()
+                    ? const EditGuardForm()
                     : EditEmployerForm(),
               ),
             ],
@@ -56,12 +54,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     double W = MediaQuery.of(context).size.width;
     double H = MediaQuery.of(context).size.height;
-
+    print('here is hte image url:             $imageUrlG');
+    // print(isPoliceG);
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             constraints: BoxConstraints(
               minWidth: W * 0.95,
               maxWidth: W * 0.95,
@@ -75,69 +74,162 @@ class _ProfileState extends State<Profile> {
                 width: 2,
                 style: BorderStyle.solid,
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(
                   (20),
                 ),
               ),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black,
                     blurRadius: 20,
                     spreadRadius: 2.0,
                     offset: Offset(-10, 7)),
               ],
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.white,
                   Colors.grey,
-                  const Color.fromARGB(255, 124, 123, 123)
+                  Color.fromARGB(255, 124, 123, 123)
                 ],
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: H / 20, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(
-                    child: Text(
-                      'My Information', // Replace with user's name
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                  if (type != 'Guard')
+                    SizedBox(
+                      height: H * 0.05,
                     ),
-                  ),
-                  SizedBox(height: H * 0.05),
-                  SingleTextRow(
-                      text1: type == 'Guard' ? 'Full Name' : 'Company Name',
-                      text2: FullNameg),
-                  SizedBox(height: H * 0.02),
-                  SingleTextRow(text1: 'Email', text2: emailg!),
-                  SizedBox(height: H * 0.02),
-                  SingleTextRow(text1: 'Phone', text2: phoneg!),
-                  SizedBox(height: H * 0.02),
-                  SingleTextRow(text1: 'Address', text2: addressg),
-                  SizedBox(height: H * 0.02),
-                  type == 'Guard'
-                      ? Column(
+                  if (type != 'Guard')
+                    const Center(
+                      child: Text(
+                        'My Information', // Replace with user's name
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  if (type != 'Guard')
+                    SizedBox(
+                      height: H * 0.03,
+                    ),
+                  SizedBox(
+                      height: H * 0.50,
+                      child: SingleChildScrollView(
+                        child: Column(
                           children: [
-                            SingleTextRow(text1: 'Badge Type', text2: badgesg),
-                            SizedBox(height: H * 0.02),
+                            // if (type == 'Guard')
+                            CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              backgroundImage: NetworkImage(
+                                  imageUrlG.toString().length < 5
+                                      ? emptyAvatarImage
+                                      : imageUrlG.toString()),
+                              radius: 50,
+                            ),
+                            SizedBox(height: H * 0.05),
                             SingleTextRow(
-                                text1: 'Driving licence ',
-                                text2: drivingLicenceg),
-                            SizedBox(height: H * 0.02),
-                            SingleTextRow(text1: 'Shift', text2: shiftg),
+                                text1: type == 'Guard'
+                                    ? 'Full Name'
+                                    : 'Company Name',
+                                text2: FullNameg),
+                            SizedBox(height: H * 0.01),
+                            SingleTextRow(text1: 'Email', text2: emailg),
+                            SizedBox(height: H * 0.01),
+                            SingleTextRow(text1: 'Phone', text2: phoneg),
+                            SizedBox(height: H * 0.01),
+                            SingleTextRow(text1: 'Address', text2: addressg),
+                            SizedBox(height: H * 0.01),
+                            type == 'Guard'
+                                ? Column(
+                                    children: [
+                                      SingleTextRow(
+                                          text1: 'Badge Type', text2: badgesg),
+                                      SizedBox(height: H * 0.01),
+                                      SingleTextRow(
+                                          text1: 'Driving licence ',
+                                          text2: drivingLicenceg),
+                                      SizedBox(height: H * 0.01),
+                                      SingleTextRow(
+                                          text1: 'Shift', text2: shiftg),
+                                      SizedBox(height: H * 0.01),
+                                      genderG.toString().length > 1
+                                          ? SingleTextRow(
+                                              text1: 'Gender',
+                                              text2: genderG ?? '')
+                                          : const SizedBox(),
+                                      genderG.toString().length > 1
+                                          ? SizedBox(height: H * 0.01)
+                                          : const SizedBox(),
+                                      dobg.toString().length > 5
+                                          ? SingleTextRow(
+                                              text1: 'Date of Birth',
+                                              text2: dobg!
+                                                  .toString()
+                                                  .substring(0, 10))
+                                          : const SizedBox(),
+                                      dobg.toString().length > 5
+                                          ? SizedBox(height: H * 0.01)
+                                          : const SizedBox(),
+                                      isPoliceG != null
+                                          ? SingleTextRow(
+                                              text1:
+                                                  'Police or Military Experience',
+                                              text2: isPoliceG == true
+                                                  ? 'Yes'
+                                                  : 'No')
+                                          : const SizedBox(),
+                                      isPoliceG != null
+                                          ? SizedBox(height: H * 0.01)
+                                          : const SizedBox(),
+                                    ],
+                                  )
+                                : SingleTextRow(
+                                    text1: 'Corresponding person',
+                                    text2: correspondingPersong),
                           ],
-                        )
-                      : SingleTextRow(
-                          text1: 'Corresponding person',
-                          text2: correspondingPersong),
-                  Spacer(),
+                        ),
+                      )),
+                  if (type != 'Guard')
+                    SizedBox(
+                      height: H * 0.03,
+                    ),
+                  if (type == 'Guard')
+                    SizedBox(
+                      height: H * 0.05,
+                    ),
+
+                  if (type == 'Guard')
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Profile Strength: ${(profilePercentageG * 100).toInt()}',
+                          style: const TextStyle(fontSize: 17),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        PercentageProgressBar(
+                          param1: genderG.toString(),
+                          param2: dobg.toString(),
+                          param3: isPoliceG.toString(),
+                          param4: imageUrlG.toString(),
+                        ),
+                      ],
+                    ),
+                  // Spacer(),
+                  if (type == 'Guard')
+                    SizedBox(
+                      height: H * 0.05,
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -148,20 +240,20 @@ class _ProfileState extends State<Profile> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                         ),
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Edit Profile',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () {
                           emailg = '';
                           phoneg = '';
@@ -172,6 +264,11 @@ class _ProfileState extends State<Profile> {
                           drivingLicenceg = '';
                           shiftg = '';
                           typeg = '';
+                          imageUrlG = '';
+                          genderG = '';
+                          isPoliceG = false;
+                          dobg = '';
+                          postalCodeG = '';
                           AuthMethods().signOut();
                           Navigator.push(
                             context,
@@ -182,15 +279,24 @@ class _ProfileState extends State<Profile> {
                           // Add logic for editing profile
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Log out',
-                            style: TextStyle(
-                              fontSize: 20,
+                            // backgroundColor: Colors.black,
+                            // backgroundColor: Colors.white),
+
                             ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Log out',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -224,22 +330,101 @@ class SingleTextRow extends StatelessWidget {
         SizedBox(
           width: W * 0.35,
           child: Text(
-            '${text1}:',
+            '$text1:',
             style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
         SizedBox(
           width: W * 0.4,
           child: Text(
             text2,
-            style: TextStyle(
-              fontSize: 15,
+            style: const TextStyle(
+              fontSize: 12,
               color: Colors.black,
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class PercentageProgressBar extends StatelessWidget {
+  final String param1;
+  final String param2;
+  final String param3;
+  final String param4;
+
+  const PercentageProgressBar({
+    super.key,
+    required this.param1,
+    required this.param2,
+    required this.param3,
+    required this.param4,
+  });
+
+  double calculatePercentage() {
+    int emptyCount = 0;
+
+    if (param1.length < 2) {
+      emptyCount++;
+    }
+    if (param2.length < 5) {
+      emptyCount++;
+    }
+    if (param3.length < 2) {
+      emptyCount++;
+    }
+    if (param4.length < 4) {
+      emptyCount++;
+    }
+
+    if (emptyCount == 3) {
+      return 0.7; // 70%
+    } else if (emptyCount == 2) {
+      return 0.8; // 80%
+    } else if (emptyCount == 1) {
+      return 0.9; // 90%
+    } else {
+      return 1.0; // 100%
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double percentage = calculatePercentage();
+    profilePercentageG = percentage;
+    return SizedBox(
+      height: 20,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.white24,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          FractionallySizedBox(
+            widthFactor: percentage,
+            alignment: Alignment.centerLeft,
+            child: Container(
+              height: 20,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+          Center(
+            child: Text(
+              '${(percentage * 100).toStringAsFixed(0)}%',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

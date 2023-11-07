@@ -7,6 +7,7 @@ class EmployerModel {
   final String phone;
   final String correspondingPerson;
   final String address;
+  final String? photoUrl;
 
   const EmployerModel({
     required this.companyName,
@@ -15,6 +16,7 @@ class EmployerModel {
     required this.phone,
     required this.correspondingPerson,
     required this.address,
+    this.photoUrl,
   });
 
   static EmployerModel fromSnap(DocumentSnapshot snap) {
@@ -27,6 +29,7 @@ class EmployerModel {
       phone: snapshot["phone"],
       correspondingPerson: snapshot["CorrespondingPerson"],
       address: snapshot["address"],
+      photoUrl: snapshot["photoUrl"],
     );
   }
 
@@ -38,5 +41,6 @@ class EmployerModel {
         "CorrespondingPerson": correspondingPerson,
         "address": address,
         "type": "employer",
+        "photoUrl": photoUrl,
       };
 }

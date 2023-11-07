@@ -101,13 +101,15 @@ class AuthMethods {
     required String address,
     required String phone,
     required String correspondingPerson,
+    required String imageUrl,
   }) async {
     String res = "Some error Occurred";
     try {
       if (companyName.isNotEmpty ||
           address.isNotEmpty ||
           phone.isNotEmpty ||
-          correspondingPerson.isNotEmpty) {
+          correspondingPerson.isNotEmpty ||
+          imageUrl.isNotEmpty) {
         // String photoUrl = await StorageMehtods()
         //     .uploadImagetoStorage('profilePics', file, false);
 
@@ -118,6 +120,7 @@ class AuthMethods {
           phone: phone,
           correspondingPerson: correspondingPerson,
           address: address,
+          photoUrl: imageUrl,
         );
 
         // adding user in our database

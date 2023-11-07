@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/FilterForm.dart';
 import 'package:guard/Employer/Search/AllEmployers.dart';
+import 'package:guard/Employer/Search/invitartion_accepted_employes.dart';
+import 'package:guard/admin/utils/utils.dart';
 import 'package:guard/users/Screens/Search/AllJobs.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MainSearchScreen extends StatelessWidget {
   const MainSearchScreen({super.key});
@@ -31,10 +34,6 @@ class MainSearchScreen extends StatelessWidget {
     double H = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Search Jobs'),
-      //   backgroundColor: Colors.black,
-      // ),
       body: Center(
         child: Container(
           padding: EdgeInsets.all(20),
@@ -74,7 +73,7 @@ class MainSearchScreen extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: H / 8),
+            padding: EdgeInsets.symmetric(vertical: H * 0.02),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -86,46 +85,79 @@ class MainSearchScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Spacer(),
                 SizedBox(
-                  width: W / 1.8,
-                  height: H / 17,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      textStyle: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AllEmployesScreen(),
+                  height: H * .1,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: W * 0.40,
+                      height: H * 0.05,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: TextStyle(fontSize: 14),
                         ),
-                      );
-                    },
-                    child: Text('Show All Employes'),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: W / 1.8,
-                  height: H / 17,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      textStyle: TextStyle(fontSize: 20),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllEmployesScreen(),
+                            ),
+                          );
+                        },
+                        child: Text('Show All Employes'),
+                      ),
                     ),
-                    onPressed: () {
-                      showFilterFom(context);
-                    },
-                    child: Text('Filter Employes'),
-                  ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: W * 0.40,
+                      height: H * 0.05,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: TextStyle(fontSize: 14),
+                        ),
+                        onPressed: () async {
+                          var status = await Permission.location.request();
+
+                          if (status.isGranted) {
+                            showFilterFom(context);
+                          } else {
+                            showSnackBar(
+                                'Please give location permisons', context);
+                          }
+                        },
+                        child: Text('Filter Employes'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: W * 0.40,
+                      height: H * 0.05,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: TextStyle(fontSize: 14),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InvitationAcceptedScreen(),
+                            ),
+                          );
+                        },
+                        child: Text('Invitation Accepted'),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: H / 8,
-                )
               ],
             ),
           ),

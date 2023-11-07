@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:guard/admin/utils/utils.dart';
 import 'package:guard/users/Models/Guard.dart';
-import 'package:guard/users/Screens/profile/EditGaurdForm.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -52,7 +49,7 @@ class AuthMethods {
         // String photoUrl = await StorageMehtods()
         //     .uploadImagetoStorage('profilePics', file, false);
 
-        GuardModel _user = GuardModel(
+        GuardModel user = GuardModel(
           FullName: FullName,
           uid: cred.user!.uid,
           email: email,
@@ -63,7 +60,6 @@ class AuthMethods {
           Shift: Shift,
           type: 'employee',
           postCode: postCode,
-          address2: '',
           dateOfBirth: '',
           gender: '',
           photoUrl: '',
@@ -74,7 +70,7 @@ class AuthMethods {
         await _firestore
             .collection("users")
             .doc(cred.user!.uid)
-            .set(_user.toJson());
+            .set(user.toJson());
 
         res = "success";
       } else {
@@ -126,7 +122,7 @@ class AuthMethods {
     } catch (e) {
       res = e.toString();
       print('Error sending password reset email: $e');
-      throw e; // You can handle the error as needed, e.g., show an error message to the user.
+      rethrow; // You can handle the error as needed, e.g., show an error message to the user.
     }
     return res;
   }
@@ -140,7 +136,6 @@ class AuthMethods {
     required String Shift,
     required String postCode,
     required String dateOfBirth,
-    required String address2,
     required String gender,
     required bool police,
     required String photoUrl,
@@ -153,9 +148,9 @@ class AuthMethods {
           DrivingLicence.isNotEmpty ||
           Shift.isNotEmpty ||
           City.isNotEmpty) {
-        GuardModel _user = GuardModel(
+        GuardModel user = GuardModel(
           FullName: FullName,
-          uid: FirebaseAuth.instance.currentUser!.email.toString(),
+          uid: FirebaseAuth.instance.currentUser!.uid,
           email: _auth.currentUser!.email.toString(),
           phone: phone,
           BadgeType: BadgeType,
@@ -163,7 +158,6 @@ class AuthMethods {
           City: City,
           Shift: Shift,
           type: 'Guard',
-          address2: address2,
           dateOfBirth: dateOfBirth,
           gender: gender,
           photoUrl: photoUrl,
@@ -175,7 +169,7 @@ class AuthMethods {
         await _firestore
             .collection("users")
             .doc(_auth.currentUser!.uid)
-            .set(_user.toJson());
+            .set(user.toJson());
 
         res = "success";
       } else {

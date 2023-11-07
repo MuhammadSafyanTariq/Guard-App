@@ -8,6 +8,7 @@ import 'package:guard/users/Screens/LoginScreen.dart';
 import 'package:guard/users/Screens/Search/FilteredJobs.dart';
 import 'package:guard/users/Screens/Search/Nationwide/FilterFormNW.dart';
 import 'package:guard/users/Screens/SingleJobCardEmploye.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AllJobsScreen extends StatefulWidget {
   @override
@@ -107,8 +108,9 @@ class _AllJobsScreenState extends State<AllJobsScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      showFilterFom(context);
+                    onPressed: () async {
+                      final status = await Permission.location.request();
+                      if (status.isGranted) showFilterFom(context);
                     },
                     icon: Icon(
                       FontAwesomeIcons.sliders,

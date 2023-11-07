@@ -38,8 +38,8 @@ class _MainPageState extends State<MainPage> {
           iconSize: 40, // Set unselected color to black
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Find Jobs',
+              icon: Icon(Icons.dashboard),
+              label: 'Dash',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.work),

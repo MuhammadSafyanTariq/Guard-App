@@ -13,7 +13,6 @@ class GuardModel {
   final List<String> appliedForJobs = [];
   final String postCode;
   final String? dateOfBirth;
-  final String? address2;
   final String gender;
   final bool police;
   final String? photoUrl;
@@ -30,7 +29,6 @@ class GuardModel {
     required this.type,
     required this.postCode,
     required this.dateOfBirth,
-    required this.address2,
     required this.gender,
     required this.police,
     required this.photoUrl,
@@ -50,7 +48,6 @@ class GuardModel {
       Shift: snapshot["Shift"],
       type: snapshot['type'],
       gender: snapshot['gender'],
-      address2: snapshot['address2'],
       dateOfBirth: snapshot['dateOfBirth'],
       photoUrl: snapshot['photoUrl'],
       police: snapshot['police'],
@@ -69,5 +66,10 @@ class GuardModel {
         "Shift": Shift,
         "type": "Guard",
         "appliedForJobs": appliedForJobs,
+        "gender": gender,
+        "dateOfBirth": dateOfBirth,
+        "police": police,
+        "postCode": postCode,
+        "photoUrl": photoUrl,
       };
 }

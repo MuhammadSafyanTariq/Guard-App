@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
                   splashIconSize: 300,
                   splash: Center(
                     child: const Text(
-                      'Welcome to Guard Pass',
+                      'Welcome to Guard Hub',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
                     ),
@@ -135,7 +135,7 @@ class _MyAppState extends State<MyApp> {
               duration: 1000,
               splashIconSize: 250,
               splash: const Text(
-                'Welcome to Guard Pass',
+                'Welcome to Guard Hub',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
               splashTransition: SplashTransition.slideTransition,

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Forms/JobForm.dart';
 import 'package:guard/Employer/Screen/Widgets/SingleJobCard.dart';
+import 'package:guard/admin/utils/utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class EmployeeJobs extends StatelessWidget {
   void showJobFom(BuildContext context) {
@@ -49,8 +51,14 @@ class EmployeeJobs extends StatelessWidget {
                     )
                   ],
                 ),
-                onPressed: () {
-                  showJobFom(context);
+                onPressed: () async {
+                  var status = await Permission.location.request();
+
+                  if (status.isGranted) {
+                    showJobFom(context);
+                  } else {
+                    showSnackBar('Please give location permisons', context);
+                  }
                 },
               ),
             ],

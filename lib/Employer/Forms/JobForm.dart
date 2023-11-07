@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:guard/Employer/Resources/Post_Job.dart';
+import 'package:guard/Employer/Screen/MainPage2.dart';
 import 'package:guard/users/Screens/JobDetails.dart';
 import 'package:guard/users/utils/utils.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class JobForm extends StatefulWidget {
   const JobForm({super.key});
@@ -52,38 +54,42 @@ class _JobFormState extends State<JobForm> {
   late double latitude;
   late double longitude;
 
-  Future<void> fetchLocationInfo(String postalCode) async {
-    try {
-      List<Location> locations = await locationFromAddress(postalCode);
+  Future<String> fetchLocationInfo(String postalCode) async {
+    String res = 'Some error occured';
 
-      if (locations.isNotEmpty) {
-        Location firstLocation = locations.first;
-        latitude = firstLocation.latitude;
-        longitude = firstLocation.longitude;
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      try {
+        List<Location> locations = await locationFromAddress(postalCode);
 
-        List<Placemark> placemarks = await placemarkFromCoordinates(
-          latitude,
-          longitude,
-        );
+        if (locations.isNotEmpty) {
+          Location firstLocation = locations.first;
+          latitude = firstLocation.latitude;
+          longitude = firstLocation.longitude;
 
-        // if (placemarks.isNotEmpty) {
-        //   Placemark firstPlacemark = placemarks.first;
-        //   _venueController.text = firstPlacemark.toString();
-
-        //   print("Latitude: $latitude");
-        //   print("Longitude: $longitude");
-        //   print("Complete Address: ${_venueController.text}");
-
-        //   // You can store these values in variables or use them as needed.
-        // } else {
-        //   print("No placemark found for the coordinates.");
-        // }
-      } else {
-        print("No location found for the postal code: $postalCode");
+          List<Placemark> placemarks = await placemarkFromCoordinates(
+            latitude,
+            longitude,
+          );
+          res = 'success';
+        } else {
+          showSnackBar('Some problem occured check your postal code', context);
+        }
+      } catch (e) {
+        showSnackBar('Some problem occured check your postal code', context);
       }
-    } catch (e) {
-      print("Error fetching location info: $e");
+    } else if (status.isDenied) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainPage2(),
+          ),
+          (route) => false);
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
     }
+
+    return res;
   }
 
   Widget buildBadgeDropdown() {
